@@ -6,6 +6,7 @@ from flask import render_template, redirect, url_for, request, flash, request
 from Laconics.forms import RegistrationForm, UpdateProfileForm, LoginForm, CreateExpenseForm
 from Laconics.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
+from sqlalchemy import text
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -44,10 +45,7 @@ def login():
 def home():
     return render_template('home.html', title='Home')
 
-@app.route('/reports')
-def reports():
-    expenses = Expense.query.all()
-    return render_template('reports.html', title='Reports', expenses=expenses)
+
 
 
 
@@ -137,8 +135,22 @@ def profile():
 @app.route('/expenses', methods=['GET', 'POST'])
 @login_required
 def expenses():
+
+    user1 = current_user
+
+    user = Expense.query.filter_by()
+
+    # expenses = text('select * from User,Expense where Expense.user_id=User.id')
+    # result = db.engine.execute(expenses)
+    # usersexpenses = [row[0] for row in result]
+    return render_template('expenses.html', title='Expenses', expenses=expenses, user1=user1)
+
+
+
+@app.route('/reports', methods=['GET', 'POST'])
+def reports():
     expenses = Expense.query.all()
-    return render_template('expenses.html', title='Expenses', expenses=expenses)
+    return render_template('reports.html', title='Reports', expenses=expenses)
     
 
 @app.route('/create_expense/new', methods=['GET', 'POST'])

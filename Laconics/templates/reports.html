@@ -1,4 +1,21 @@
 {% extends "index.html" %}
 {% block body %}
 
+</section>
+{% for expense in expenses %}
+        <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + expense.author.profile_image)}}">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2">{{ expense.author.role }}: {{ expense.author.name }} {{ expense.author.surname }} </a>
+                    </div>
+                    <div class="article-metadata">
+                            <small class="text-muted"> Date Posted: {{ expense.post_date.strftime('%d-%m-%Y') }}</small>
+                            <small class="text-muted"> Expense Date: {{ expense.expenses_date.strftime('%d-%m-%Y') }}</small>
+                    </div>
+                </div>
+        </article>
+{% endfor %}
+
+
 {% endblock %}

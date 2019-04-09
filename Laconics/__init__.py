@@ -19,6 +19,7 @@ bcrypt = Bcrypt(app)
 # login manager instantiation
 login_manager = LoginManager(app)
 
+
 # instantiation the manager for login view
 # it's return on the log in page when someone try 
 # to access account page from the url manually 

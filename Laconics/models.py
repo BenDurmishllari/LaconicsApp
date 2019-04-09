@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 
     #printed method ToString()
     def __repr__(self):
-        return f"Users('{self.name}', '{self.surname}','{self.profile_image}')"
+        return f"Users('{self.id}','{self.name}', '{self.surname}','{self.profile_image},'{self.expenses}'')"
 
 
 class Expense(db.Model):
@@ -48,4 +48,4 @@ class Expense(db.Model):
 
      #printed method ToString()
     def __repr__(self):
-        return f"Users('{self.client_name}', '{self.client_project}', '{self.post_date}')"
+        return f"Users('{self.expense_id}','{self.client_name}', '{self.client_project}', '{self.post_date},'{self.user_id}'')"
