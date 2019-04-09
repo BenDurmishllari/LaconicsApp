@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    {% if title %}
+      <title>Saggezza - {{title}}</title>
+    {% else %}
+      <title>Saggezza{{title}}</title>
+    {% endif %}
+
+
+
+</head>
+<body>
+    
+    
+    
+    <div class="loginHeader">
+        <img class="logo"src="{{url_for('static', filename='logo/Sagezzalogo.png')}}"/>
+    </div>
+
+    <main role="main">
+            <div class="row"></div>
+              <div class="col-sm-8">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                      <div class="alert alert-{{ category }}">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+              </div>
+            </div>
+    </main>
+    
+    <div class="loginmain">
+        
+        <br>
+        <br>
+        
+        <form class="loginbox" action="" method="POST">
+            {{ form.hidden_tag() }}
+                <h1>Login</h1>
+                {{ form.employee_number(class="form-control", placeholder="Username") }}
+                {{ form.password(class="form-control",placeholder="Password") }}
+                {{ form.submit(class="loginbox.button") }}
+        </form>  
+    </div>
+
+    
+
+</body>
+</html>
