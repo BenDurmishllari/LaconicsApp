@@ -136,14 +136,9 @@ def profile():
 @login_required
 def expenses():
 
-    user1 = current_user
-
-    user = Expense.query.filter_by()
-
-    # expenses = text('select * from User,Expense where Expense.user_id=User.id')
-    # result = db.engine.execute(expenses)
-    # usersexpenses = [row[0] for row in result]
-    return render_template('expenses.html', title='Expenses', expenses=expenses, user1=user1)
+    expenses = Expense.query.filter_by(user_id=current_user.id).all()
+    
+    return render_template('expenses.html', title='Expenses', expenses=expenses)
 
 
 
@@ -178,7 +173,7 @@ def new_expense():
         db.session.add(expense)
         db.session.commit()
         flash('Your expense has been created', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('expenses'))
     return render_template('create_expense.html', title='New Expense', form=form)
 
 
