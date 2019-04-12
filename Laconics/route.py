@@ -162,19 +162,24 @@ def new_expense():
                           billable_to = form.billable_to.data, 
                           payment = form.payment.data, 
                           receipt = form.receipt.data, 
-                          expense_category = form.expense_category.data, 
-                          verify_or_decline = form.verify_or_decline.data, 
+                          expense_category = form.expense_category.data,  
                           GBP = form.GBP.data, 
                           EUR = form.EUR.data, 
                           USD = form.USD.data, 
                           description = form.description.data,
                           author = current_user)
-        
+        expense.verify_or_decline = 'Pending'
+
         db.session.add(expense)
         db.session.commit()
         flash('Your expense has been created', 'success')
         return redirect(url_for('expenses'))
     return render_template('create_expense.html', title='New Expense', form=form)
 
+
+@app.route('/expensesprofile/<int:expense_id>')
+def expensesprofile(expense_id):
+    expense = Expense.query.get_or_404(expense_id)
+    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name)
 
 

@@ -11,13 +11,13 @@
                     <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + expense.author.profile_image)}}">
                     <div class="media-body">
                         <div class="article-metadata">
-                            <a class="mr-2">Client name: {{ expense.client_name }}</a>
+                            <a class="mr-2" href="{{ url_for('expensesprofile', expense_id=expense.expense_id) }}">Client name: {{ expense.client_name }}</a>
                         </div>
                         <div class="article-metadata">
                             <small class="text-muted"> Client project: {{ expense.client_project }}</small>
                         </div>
                         <div class="article-metadata">
-                            <a class="mr-2">{{ expense.author.role }}: {{ expense.author.name }} {{ expense.author.surname }}</a>
+                            <small class="text-muted">{{ expense.author.role }}: {{ expense.author.name }} {{ expense.author.surname }}</small>
                         </div>
                         <div class="article-metadata">
                             <small class="text-muted"> Expense category: {{ expense.expense_category }}</small>
@@ -40,6 +40,10 @@
                                 {% endif %}
                             {% endif %}
                         </div>
+                        <div class="article-metadata">
+                            <small class="text-muted"> Status: {{ expense.verify_or_decline }} </small>
+                        </div>
+                       
                     </div>
             </article>
             
