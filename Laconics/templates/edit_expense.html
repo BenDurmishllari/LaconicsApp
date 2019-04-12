@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+{% block body %}
+
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Edit Expenses</legend>
+                <div class="form-content">
+                    
+                            <div class="form-group">
+                                {{ form.client_project.label(class="form-control-label") }}
+                                
+                                {% if form.client_project.errors %}
+                                    {{ form.client_project(class="form-control is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.client_project.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                {% else %}
+                                    {{ form.client_project(class="form-control") }}
+                                {% endif %}
+                                
+                            </div>
+                            <div class="form-group">
+                                    {{ form.client_or_saggezza.label(class="form-control-label") }}
+                                    
+                                    {% if form.client_or_saggezza.errors %}
+                                        {{ form.client_or_saggezza(class="form-control is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.client_or_saggezza.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                    {% else %}
+                                        {{ form.client_or_saggezza(class="form-control") }}
+                                    {% endif %}
+                                    
+                                </div>
+                         
+                           
+                    <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-info") }}
+                    </div>
+                </div>
+            </fieldset>
+        
+        </form>
+    </div>
+
+{% endblock %}

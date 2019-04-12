@@ -36,10 +36,9 @@
         <p class="article-content">Amount USD: $ {{ expense.USD }}</p>
         {% endif %}
         </div>
-        <div class="article-metadata">
-            <button type="button" class="btn btn-success" href="{{ url_for('verify', expense_id = expense.expense_id) }}">Verify</button>
-            <button type="button" class="btn btn-danger" href="{{ url_for('decline', expense_id = expense.expense_id) }}">Decline</button> 
-        </div>
+        {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Pending' %}
+            <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('edit_expense', expense_id=expense.expense_id) }}">Edit</a>
+        {% endif %}
     </article>
 
   {% endblock %}

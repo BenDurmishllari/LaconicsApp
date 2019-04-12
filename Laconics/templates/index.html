@@ -48,13 +48,18 @@
                         <a href="{{ url_for('expenses') }}"><i class="fas fa-file-invoice"></i> Expenses </a>
                       </li>  
 
-                      <li data-toggle="collapse" data-target="#reports" class="collapsed">
-                        <a href="{{ url_for('reports') }}"><i class="fas fa-chart-bar"></i> Reports </a>
-                      </li>
-
-                      <li data-toggle="collapse" data-target="#reports" class="collapsed">
-                          <a href="{{ url_for('register') }}"><i class="fas fa-users"></i> Users </a>
-                      </li>
+                      {% if current_user.role !='User' %}
+                        
+                          <li data-toggle="collapse" data-target="#reports" class="collapsed">
+                            <a href="{{ url_for('reports') }}"><i class="fas fa-chart-bar"></i> Reports </a>
+                          </li>
+                       
+                        {% if current_user.role == 'Admin' %}
+                          <li data-toggle="collapse" data-target="#reports" class="collapsed">
+                              <a href="{{ url_for('register') }}"><i class="fas fa-users"></i> Users </a>
+                          </li>
+                        {% endif %}
+                      {% endif %}
 
                       <li  data-toggle="collapse" data-target="#products" class="collapsed">
                           <a><i class="fas fa-user-circle"></i> Account </a>
@@ -76,7 +81,7 @@
     
       <section id="section1"></section>
       <main role="main">
-        <div class="row"></div>
+        <div class="row">
           <div class="col-sm-8">
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}

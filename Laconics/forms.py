@@ -104,6 +104,13 @@ class CreateExpenseForm(FlaskForm):
     EUR = StringField('Cost in EUR: (optional)')
     USD = StringField('Cost in USD: (optional)')
     
-    verify_or_decline = StringField('verify or decline value')
     
     submit = SubmitField('Add Expense')
+
+
+class Edit_expenseForm(FlaskForm):
+    client_project = StringField('Client Project', validators = [DataRequired()])
+    client_or_saggezza = SelectField('Client or Saggezza:', choices = [('Saggezza UK', 'Saggezza UK'), 
+                                                                       ('Saggezza US', 'Saggezza US'), 
+                                                                       ('Client', 'Client')])
+    submit = SubmitField('Update Expense')

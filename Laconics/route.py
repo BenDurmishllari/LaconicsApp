@@ -2,8 +2,8 @@ import os
 import secrets
 from PIL import Image
 from Laconics import app, db, bcrypt
-from flask import render_template, redirect, url_for, request, flash, request
-from Laconics.forms import RegistrationForm, UpdateProfileForm, LoginForm, CreateExpenseForm
+from flask import render_template, redirect, url_for, request, flash, request, abort
+from Laconics.forms import RegistrationForm, UpdateProfileForm, LoginForm, CreateExpenseForm, Edit_expenseForm
 from Laconics.models import User, Expense
 from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
@@ -76,6 +76,8 @@ def register():
         
         flash('Employee account has been created', 'success')
         return redirect(url_for('home'))
+    if current_user.role != 'Admin':
+        abort(403)
     return render_template('register.html', title='Register', form=form)  
 
 @app.route('/logout')
@@ -145,6 +147,8 @@ def expenses():
 @app.route('/reports', methods=['GET', 'POST'])
 def reports():
     expenses = Expense.query.all()
+    if current_user.role == 'User':
+        abort(403)
     return render_template('reports.html', title='Reports', expenses=expenses)
     
 
@@ -181,5 +185,54 @@ def new_expense():
 def expensesprofile(expense_id):
     expense = Expense.query.get_or_404(expense_id)
     return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name)
+
+
+
+@app.route('/expensesprofile/<int:expense_id>/verify', methods=['GET', 'POST'])
+def verify(expense_id):
+    expense = Expense.query.get_or_404(expense_id)
+    expense.verify_or_decline = 'Verify'
+    db.session.commit()
+    flash('Expense has been verified', 'success')
+    return redirect(url_for('expenses'))
+    if current_user.role != 'Manager':
+        abort(403)
+    return render_template('expenses.html', title='Expenses', expense=expense)
+
+
+
+@app.route('/expensesprofile/<int:expense_id>/decline', methods=['GET', 'POST'])
+def decline(expense_id):
+    expense = Expense.query.get_or_404(expense_id)
+    expense.verify_or_decline = 'Decline'
+    db.session.commit()
+    flash('Expense has been verified', 'success')
+    return redirect(url_for('expenses'))
+    if current_user.role != 'Manager':
+        abort(403)
+    return render_template('expenses.html', title='Expenses', expense=expense)
+
+
+@app.route('/expensesprofile/<int:expense_id>/edit', methods=['GET', 'POST'])
+def edit_expense(expense_id):
+    
+    expense = Expense.query.get_or_404(expense_id)
+    form = Edit_expenseForm()
+
+   
+    if form.validate_on_submit():
+        expense.client_project = form.client_project.data
+        expense.client_or_saggezza = form.client_or_saggezza.data
+        db.session.commit()
+        flash('Expense has been updated', 'success')
+        return redirect(url_for('expensesprofile', expense_id=expense.expense_id))
+    elif request.method == 'GET':
+        form.client_project.data = expense.client_project
+        form.client_or_saggezza.data = expense.client_or_saggezza
+    if current_user.role != 'Admin':
+        abort(403)
+    return render_template('edit_expense.html', title='Edit Expense', form=form, expense=expense)
+
+
 
 
