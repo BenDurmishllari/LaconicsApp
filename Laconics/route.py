@@ -112,11 +112,13 @@ def profile():
     
     if form.validate_on_submit():
         
+
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.profile_image = picture_file
         current_user.name = form.name.data
         current_user.email = form.email.data
+        current_user.password = form.password.data
         db.session.commit()
         flash('Your profile info has been updated', 'success')
     
@@ -129,6 +131,7 @@ def profile():
                             title='Account', 
                             profile_image = profile_image, 
                             form = form)
+                            
 
 
 

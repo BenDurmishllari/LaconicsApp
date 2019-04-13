@@ -5,40 +5,45 @@
         <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + expense.author.profile_image) }}">
         <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="#">{{ expense.author.employee_number }}</a>
-            <small class="text-muted">{{ expense.post_date.strftime('%d-%m-%Y') }}</small>
-            {% if current_user.role == 'Manager' and expense.verify_or_decline == 'Pending' %} 
-            <div>
-                <a class="btn btn-success btn-sm mt-1 mb-1" href="{{ url_for('verify', expense_id=expense.expense_id) }}">Verify</a>
-                or 
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{{ url_for('decline', expense_id=expense.expense_id) }}">Decline</a>
-            </div>
+            <a class="mr-2" href="#">{{ expense.author.name }} {{ expense.author.surname }}</a>
+            <small class="text-muted">{{ expense.expenses_date.strftime('%d-%m-%Y') }}</small>
+        </div>
+        <div class="article-metadata">
+            <h2 class="article-title">Client Name: {{ expense.client_name }}</h2>
+        </div>
+        <div class="article-metadata">
+            <p class="article-content">Client: {{ expense.client_or_saggezza }}</p>
+            <p class="article-content">Appointment Date: {{ expense.expenses_date.strftime('%d-%m-%Y') }}</p>
+            <p class="article-content">Client Project: {{ expense.client_project }}</p>
+            <p class="article-content">Billable to client: {{ expense.billable_to }}</p>
+            <p class="article-content">Payment: {{ expense.payment }}</p>
+            <p class="article-content">Receipt: {{ expense.receipt }}</p>
+            <p class="article-content">Category: {{ expense.category }}</p>
+            <p class="article-content">Description: {{ expense.description }}</p>
+            <p class="article-content">Amount GBP: {{ expense.GBP }}£</p>
+            {% if expense.EUR == '' %}
+            <p class="article-content">Amount EUR: 0€</p>
+            {% else %}
+            <p class="article-content">Amount EUR: € {{ expense.EUR }}</p>
+            {% endif %}
+            {% if expense.USD == '' %}
+            <p class="article-content">Amount USD: 0$</p>
+            {% else %}
+            <p class="article-content">Amount USD: $ {{ expense.USD }}</p>
             {% endif %}
         </div>
-        <h2 class="article-title">{{ expense.client_name }}</h2>
-        <p class="article-content">Client: {{ expense.client_or_saggezza }}</p>
-        <p class="article-content">Appointment Date: {{ expense.expenses_date.strftime('%d-%m-%Y') }}</p>
-        <p class="article-content">Client Project: {{ expense.client_project }}</p>
-        <p class="article-content">Billable to client: {{ expense.billable_to }}</p>
-        <p class="article-content">Payment: {{ expense.payment }}</p>
-        <p class="article-content">Receipt: {{ expense.receipt }}</p>
-        <p class="article-content">Category: {{ expense.category }}</p>
-        <p class="article-content">Description: {{ expense.description }}</p>
-        <p class="article-content">Amount GBP: £ {{ expense.GBP }}</p>
-        {% if expense.EUR == '' %}
-        <p class="article-content">Amount EUR: € 0</p>
-        {% else %}
-        <p class="article-content">Amount EUR: € {{ expense.EUR }}</p>
-        {% endif %}
-        {% if expense.USD == '' %}
-        <p class="article-content">Amount USD: $ 0</p>
-        {% else %}
-        <p class="article-content">Amount USD: $ {{ expense.USD }}</p>
-        {% endif %}
+        <div class="article-metadata">
+            {% if current_user.role == 'Manager' and expense.verify_or_decline == 'Pending' %} 
+                <div>
+                    <a class="btn btn-success btn-sm mt-1 mb-1" href="{{ url_for('verify', expense_id=expense.expense_id) }}">Verify</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{{ url_for('decline', expense_id=expense.expense_id) }}">Decline</a>
+                </div>
+            {% endif %}
+            {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Pending' %}
+                <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('edit_expense', expense_id=expense.expense_id) }}">Edit</a>
+            {% endif %}
         </div>
-        {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Pending' %}
-            <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('edit_expense', expense_id=expense.expense_id) }}">Edit</a>
-        {% endif %}
+        
     </article>
 
   {% endblock %}
