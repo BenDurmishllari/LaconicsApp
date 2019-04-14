@@ -236,5 +236,18 @@ def edit_expense(expense_id):
     return render_template('edit_expense.html', title='Edit Expense', form=form, expense=expense)
 
 
+@app.route('/expensesprofile/<int:expense_id>/delete', methods=['POST'])
+def delete_expense(expense_id):
+    
+    expense = Expense.query.get_or_404(expense_id)
+
+    if current_user.role != 'Admin':
+        abort(403)
+    db.session.delete(expense)
+    db.session.commit()
+    flash('Expense has been deleted', 'success')
+    return redirect(url_for('reports'))
+
+
 
 
