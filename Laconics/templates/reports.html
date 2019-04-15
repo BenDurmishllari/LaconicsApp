@@ -20,18 +20,18 @@
                     </div>
                     <div class="article-metadata">
                         <small class="text-muted"> Expense Date: {{ expense.expenses_date.strftime('%d-%m-%Y') }}</small>
-                        {% if expense.EUR=='' %}
-                            {% if expense.USD=='' %}
+                        {% if expense.EUR=='0.0' %}
+                            {% if expense.USD=='0.0' %}
                                 <small class="text-muted"> Cost: {{ expense.GBP }}£</small>
                             {% endif %}
                         {% endif %}
-                        {% if expense.GBP=='0' %}
-                            {% if expense.EUR=='' %}
+                        {% if expense.GBP=='0.0' %}
+                            {% if expense.EUR=='0.0' %}
                                 <small class="text-muted"> Cost: {{ expense.USD }}$</small>
                             {% endif %}
                         {% endif %}
-                        {% if expense.GBP=='0' %}
-                            {% if expense.USD=='' %}
+                        {% if expense.GBP=='0.0' %}
+                            {% if expense.USD=='0.0' %}
                                 <small class="text-muted"> Cost: {{ expense.EUR }}€</small>
                             {% endif %}
                         {% endif %}

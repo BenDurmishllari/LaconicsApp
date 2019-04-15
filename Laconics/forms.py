@@ -100,7 +100,7 @@ class CreateExpenseForm(FlaskForm):
                                                           ('Consumables', 'Consumables'), 
                                                           ('Other', 'Other')])
     
-    GBP = FloatField('Cost in GBP:  Required *', validators=[DataRequired()])
+    GBP = FloatField('Cost in GBP:  Required *', validators=[validators.NumberRange(min=0, max=10)])
     EUR = FloatField('Cost in EUR: (optional)')
     USD = FloatField('Cost in USD: (optional)')
     
