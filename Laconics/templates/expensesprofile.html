@@ -12,6 +12,7 @@
             <a class="mr-2">{{ expense.author.name }} {{ expense.author.surname }}</a>
             <small class="text-muted">Post Date: {{ expense.post_date.strftime('%d-%m-%Y') }}</small>
         </div>
+        <div class="article-metadata">
             <div class="row">
                     <div class="col-md-6">
                                 <div class="form-group">
@@ -48,17 +49,17 @@
                                 {% if expense.EUR == '' %}
                                     <p class="article-content">Amount EUR: 0€</p>
                                 {% else %}
-                                    <p class="article-content">Amount EUR: € {{ expense.EUR }}</p>
+                                    <p class="article-content">Amount EUR:  {{ expense.EUR }}€</p>
                                 {% endif %}
                                 {% if expense.USD == '' %}
                                     <p class="article-content">Amount USD: 0$</p>
                                 {% else %}
-                                    <p class="article-content">Amount USD: $ {{ expense.USD }}</p>
+                                    <p class="article-content">Amount USD: {{ expense.USD }}$</p>
                                 {% endif %}
                             </div>
                         </div>
             </div>
-       
+        </div>
         <div class="article-metadata">
             {% if current_user.role == 'Manager' and expense.verify_or_decline == 'Pending' %} 
                 <div>
@@ -69,29 +70,17 @@
             {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Pending' %}
                 <a class="btn btn-outline-info" href="{{ url_for('edit_expense', expense_id=expense.expense_id) }}">Edit</a>
             {% endif %}
-            {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Verify' or expense.verify_or_decline == 'Decline' or expense.verify_or_decline == 'Pending' %}
-                <button type="button"" class="btn btn-outline-info" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Verify' %}
+                <form action="{{ url_for('delete_expense', expense_id=expense.expense_id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            {% endif %}
+            {% if current_user.role == 'Admin' and expense.verify_or_decline == 'Decline' %}
+                <form action="{{ url_for('delete_expense', expense_id=expense.expense_id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
             {% endif %}
         </div>
     </article>
 
-    <!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">Delete Expense</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <form action="{{ url_for('delete_expense', expense_id=expense.expense_id) }}" method="POST">
-                  <input type="submit" class="btn btn-danger" value="Delete">
-              </form>
-            </div>
-          </div>
-        </div>
-</div>
   {% endblock %}

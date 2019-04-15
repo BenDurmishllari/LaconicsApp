@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, validators, FloatField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import DateField
 from Laconics.models import User
@@ -100,9 +100,9 @@ class CreateExpenseForm(FlaskForm):
                                                           ('Consumables', 'Consumables'), 
                                                           ('Other', 'Other')])
     
-    GBP = StringField('Cost in GBP:  Required *', validators=[DataRequired()])
-    EUR = StringField('Cost in EUR: (optional)')
-    USD = StringField('Cost in USD: (optional)')
+    GBP = FloatField('Cost in GBP:  Required *', validators=[DataRequired()])
+    EUR = FloatField('Cost in EUR: (optional)')
+    USD = FloatField('Cost in USD: (optional)')
     
     
     submit = SubmitField('Add Expense')
