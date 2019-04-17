@@ -1,12 +1,31 @@
 import os 
+import sys
 import secrets
+from io import BytesIO
 from PIL import Image
-from Laconics import app, db, bcrypt
-from flask import render_template, redirect, url_for, request, flash, request, abort
-from Laconics.forms import RegistrationForm, UpdateProfileForm, LoginForm, CreateExpenseForm, Edit_expenseForm
+from Laconics import app, db, bcrypt, mail
+from flask import (render_template, 
+                   redirect, 
+                   url_for, 
+                   request, 
+                   flash, 
+                   request, 
+                   abort)
+from Laconics.forms import (RegistrationForm, 
+                            UpdateProfileForm, 
+                            LoginForm, 
+                            CreateExpenseForm, 
+                            Edit_expenseForm,
+                            PasswordRequest,
+                            PasswordReset)
 from Laconics.models import User, Expense
-from flask_login import login_user, logout_user, login_required, current_user
-from sqlalchemy import text
+from flask_login import (login_user, 
+                         logout_user, 
+                         login_required, 
+                         current_user)
+
+from flask_mail import Mail, Message
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -75,8 +94,8 @@ def register():
         
         flash('Employee account has been created', 'success')
         return redirect(url_for('home'))
-    if current_user.role != 'Admin':
-        abort(403)
+    # if current_user.role != 'Admin':
+    #     abort(403)
     return render_template('register.html', title='Register', form=form)  
 
 @app.route('/logout')
@@ -104,6 +123,7 @@ def save_picture(form_picture):
 
     return picture_filename
 
+
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
@@ -118,7 +138,6 @@ def profile():
             current_user.profile_image = picture_file
         current_user.name = form.name.data
         current_user.email = form.email.data
-        current_user.password = form.password.data
         db.session.commit()
         flash('Your profile info has been updated', 'success')
     
@@ -161,6 +180,7 @@ def new_expense():
     form = CreateExpenseForm()
 
     if form.validate_on_submit():
+
         expense = Expense(client_name = form.client_name.data, 
                           client_project = form.client_project.data,
                           client_or_saggezza = form.client_or_saggezza.data, 
@@ -172,10 +192,10 @@ def new_expense():
                           GBP = form.GBP.data, 
                           EUR = form.EUR.data, 
                           USD = form.USD.data, 
+                          receipt_image=form.picture.data,
                           description = form.description.data,
                           author = current_user)
         expense.verify_or_decline = 'Pending'
-
         db.session.add(expense)
         db.session.commit()
         flash('Your expense has been created', 'success')
@@ -196,7 +216,7 @@ def verify(expense_id):
     expense.verify_or_decline = 'Verify'
     db.session.commit()
     flash('Expense has been verified', 'success')
-    return redirect(url_for('expenses'))
+    return redirect(url_for('reports'))
     if current_user.role != 'Manager':
         abort(403)
     return render_template('expenses.html', title='Expenses', expense=expense)
@@ -208,8 +228,8 @@ def decline(expense_id):
     expense = Expense.query.get_or_404(expense_id)
     expense.verify_or_decline = 'Decline'
     db.session.commit()
-    flash('Expense has been verified', 'success')
-    return redirect(url_for('expenses'))
+    flash('Expense has been declined', 'success')
+    return redirect(url_for('reports'))
     if current_user.role != 'Manager':
         abort(403)
     return render_template('expenses.html', title='Expenses', expense=expense)
@@ -247,6 +267,55 @@ def delete_expense(expense_id):
     db.session.commit()
     flash('Expense has been deleted', 'success')
     return redirect(url_for('reports'))
+
+
+def reset_email(user):
+    token = user.get_reset_token()
+    message = Message('Request to reset your password',
+                       sender = 'ben.durmishllari@gmail.com',
+                       recipients = [user.email])
+    message.body = f''' Please click on link bellow to reset your password:
+    {url_for('reset_password', token=token, _external=True)}
+
+    This is an email to reset your password if you don't make this request void this email and contact with the administrator
+    '''
+
+    mail.send(message)
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    form = PasswordRequest()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.mail.data).first()
+        reset_email(user)
+        flash('Emails for reset password has been sended', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route('/change_password/<token>', methods=['GET', 'POST'])
+def change_password():
+    if current_user.is_authenticated:
+        return redirect('home')
+    user = User.verify_reset_token(token)
+
+    if user is None:
+        flash('This user might not exist or this email has been expired', 'danger')
+        return redirect(url_for('reset_password'))
+    
+    form = PasswordReset()
+    if form.validate_on_submit():
+        hased_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hased_password
+        db.session.commit()
+        flash('Your password has been reseted', 'success')
+        return redirect(url_for('login'))
+    return render_template('change_password.html', title = 'Change Password', form=form)
 
 
 

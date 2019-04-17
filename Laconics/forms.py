@@ -1,7 +1,18 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField, IntegerField, validators, FloatField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import (StringField, 
+                     PasswordField, 
+                     SubmitField, 
+                     SelectField, 
+                     TextAreaField, 
+                     IntegerField, 
+                     validators, 
+                     FloatField)
+from wtforms.validators import (DataRequired, 
+                                Length, 
+                                Email, 
+                                EqualTo, 
+                                ValidationError)
 from wtforms.fields.html5 import DateField
 from Laconics.models import User
 from flask_login import current_user
@@ -100,10 +111,11 @@ class CreateExpenseForm(FlaskForm):
                                                           ('Consumables', 'Consumables'), 
                                                           ('Other', 'Other')])
     
-    GBP = FloatField('Cost in GBP:  Required *', validators=[validators.NumberRange(min=0, max=10)])
-    EUR = FloatField('Cost in EUR: (optional)')
-    USD = FloatField('Cost in USD: (optional)')
+    GBP = FloatField('Cost in GBP:  Required *', validators=[validators.NumberRange(min=0)])
+    EUR = FloatField('Cost in EUR: (optional)', validators=[validators.NumberRange(min=0)])
+    USD = FloatField('Cost in USD: (optional)', validators=[validators.NumberRange(min=0)])
     
+    picture = FileField('Upload Receipt Image' , validators = [FileAllowed(['jpg','png','tiff','pdf'])])
     
     submit = SubmitField('Add Expense')
 
@@ -114,3 +126,17 @@ class Edit_expenseForm(FlaskForm):
                                                                        ('Saggezza US', 'Saggezza US'), 
                                                                        ('Client', 'Client')])
     submit = SubmitField('Update Expense')
+
+class PasswordRequest(FlaskForm):
+    mail = StringField('Email', validators = [DataRequired(), Email()])
+    
+    submit = SubmitField('Password Reset')
+
+class PasswordReset(FlaskForm):
+    password = StringField('Email', validators = [DataRequired(), Email()])
+    confirm_password = StringField('Email', validators = [DataRequired(), EqualTo('password')])
+
+    submit = SubmitField('Submit')
+
+
+

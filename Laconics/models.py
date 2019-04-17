@@ -1,6 +1,8 @@
 from Laconics import db, app, route, login_manager
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask_login import UserMixin
+
 
 
 # Flask-Login provides user session management for Flask. 
@@ -21,6 +23,21 @@ class User(db.Model, UserMixin):
     profile_image = db.Column(db.String(20), nullable = False, default = 'default.jpg')
     role = db.Column(db.String(20), nullable = False)
     expenses = db.relationship('Expense', backref = 'author', lazy = True)
+
+
+    def get_reset_token(self, expires_sec = 600):
+        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+
     
 
     #printed method ToString()
@@ -42,7 +59,8 @@ class Expense(db.Model):
     verify_or_decline = db.Column(db.String(20), nullable = True)
     GBP = db.Column(db.String(20), nullable = False)
     EUR = db.Column(db.String(20), nullable = True)
-    USD = db.Column(db.String(20), nullable = True) 
+    USD = db.Column(db.String(20), nullable = True)
+    receipt_image = db.Column(db.BLOB)
     description = db.Column(db.Text, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
