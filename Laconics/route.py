@@ -1,6 +1,9 @@
 import os 
+import io
 import sys
 import secrets
+import base64 
+from base64 import b64encode
 from io import BytesIO
 from PIL import Image
 from Laconics import app, db, bcrypt, mail
@@ -107,7 +110,7 @@ def logout():
 
 """
  This function it's save the pictures and it's giving secret characters to the images
- that this characters are unique for each user. Also, it's rezile the pictures
+ that this characters are unique for each user. Also, it's resize the pictures
  that the user's upload on their profile in 256 pixel to save space and quality.
 """
 def save_picture(form_picture):
@@ -179,8 +182,14 @@ def new_expense():
 
     form = CreateExpenseForm()
 
+    
+
+
     if form.validate_on_submit():
 
+        file = request.files['picture_expense']      
+        
+        # imgg = str.encode(imgg1)
         expense = Expense(client_name = form.client_name.data, 
                           client_project = form.client_project.data,
                           client_or_saggezza = form.client_or_saggezza.data, 
@@ -192,7 +201,7 @@ def new_expense():
                           GBP = form.GBP.data, 
                           EUR = form.EUR.data, 
                           USD = form.USD.data, 
-                          receipt_image=form.picture.data,
+                          receipt_image=file.read(),
                           description = form.description.data,
                           author = current_user)
         expense.verify_or_decline = 'Pending'
@@ -206,7 +215,18 @@ def new_expense():
 @app.route('/expensesprofile/<int:expense_id>')
 def expensesprofile(expense_id):
     expense = Expense.query.get_or_404(expense_id)
-    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name)
+    # ex = Expense.query.filter_by(expense_id = Expense.receipt_image)
+    # obj = Expense.query(Expense.expense_id == expense_id).fetch(1)[0]
+    obj = Expense.query.filter_by(expense_id=Expense.receipt_image)
+    image = base64.b64decode(obj)
+    # obj = base64.decodestring(expense.receipt_image)
+    # image = open('expic', 'rb') 
+    # image_read = image.read() 
+    # image_64_encode = base64.encodestring(Expense.receipt_image) 
+    # image_64_decode = base64.decodestring(Expense.receipt_image) 
+    # # create a writable image and write the decoding result image_result.write(image_64_decode)
+    # image_result = open('expic', 'wb') 
+    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name,image=image, obj=obj)
 
 
 

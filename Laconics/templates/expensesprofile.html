@@ -82,7 +82,8 @@
             {% endif %}
         </div>
         <div>
-            <img src="{{ expense.receipt_image }}">
+            <!-- <img src="data:image/png;base64, {{ expense.receipt_image | safe }}"> -->
+            <img src="data:image/png;base64, {{ image | safe }}"/>
         </div>
     </article>
 
