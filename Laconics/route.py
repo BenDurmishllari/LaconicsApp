@@ -235,12 +235,19 @@ def new_expense():
 @app.route('/expensesprofile/<int:expense_id>')
 def expensesprofile(expense_id):
     
-    expense = Expense.query.get_or_404(expense_id)
+    try:
+
+        expense = Expense.query.get_or_404(expense_id)
+        
+        image = base64.b64encode(expense.receipt_image)
+
+        return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))
     
-    image = base64.b64encode(expense.receipt_image)
-
-    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))
-
+    except:
+        
+        expense = Expense.query.get_or_404(expense_id)
+        
+        return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name)
 
 
 @app.route('/expensesprofile/<int:expense_id>/verify', methods=['GET', 'POST'])
