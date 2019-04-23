@@ -83,6 +83,7 @@ def userprofile(id):
 
     return render_template('users_profile.html', user=user, name=user.name, surname=user.surname, profile_image=profile_image)
 
+
 """
  This method will work only when the account that you want
  to delete it doesn't have any exist expense
@@ -90,14 +91,21 @@ def userprofile(id):
 @app.route('/userprofile/<int:id>/delete', methods=['POST'])
 def delete_user(id):
     
-    user = User.query.get_or_404(id)
+    try:
 
-    if current_user.role != 'Admin':
-        abort(403)
-    db.session.delete(user)
-    db.session.commit()
-    flash('Employee account has been deleted', 'success')
-    return redirect(url_for('users'))
+        user = User.query.get_or_404(id)
+
+        if current_user.role != 'Admin':
+            abort(403)
+        db.session.delete(user)
+        db.session.commit()
+        flash('Employee account has been deleted', 'success')
+        return redirect(url_for('users'))
+    
+    except:
+        flash('You can"t delete this account expenses still exist for this author', 'success')
+        return redirect(url_for('users'))
+
 
 
 @app.route('/register', methods=['GET', 'POST'])

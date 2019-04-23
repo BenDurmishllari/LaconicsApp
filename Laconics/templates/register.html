@@ -11,6 +11,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 
+                                {{ form.employee_number.label(class="form-control-label") }}
+
                                 {% if form.employee_number.errors %}
                                     {{ form.employee_number(class="form-control is-invalid") }}
                                     <div class="invalid-feedback">
@@ -19,13 +21,13 @@
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.employee_number(class="form-control",
-                                    placeholder="Employee Number") }}
+                                    {{ form.employee_number(class="form-control") }}
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 
-                                
+                                {{ form.name.label(class="form-control-label") }}
+
                                 {% if form.name.errors %}
                                     {{ form.name(class="form-control is-invalid") }}
                                         <div class="invalid-feedback">
@@ -34,12 +36,13 @@
                                             {% endfor %}
                                         </div>
                                 {% else %}
-                                    {{ form.name(class="form-control",placeholder="Name") }}
+                                    {{ form.name(class="form-control") }}
                                 {% endif %}
                                 
                             </div>
                             <div class="form-group">
                                 
+                                {{ form.surname.label(class="form-control-label") }}
 
                                 {% if form.surname.errors %}
                                     {{ form.surname(class="form-control is-invalid") }}
@@ -49,7 +52,7 @@
                                             {% endfor %}
                                         </div>
                                 {% else %}
-                                    {{ form.surname(class="form-control", placeholder="Surname") }}
+                                    {{ form.surname(class="form-control") }}
                                 {% endif %}
                                 
                             </div>
@@ -57,6 +60,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 
+                                {{ form.email.label(class="form-control-label") }}
 
                                 {% if form.email.errors %}
                                     {{ form.email(class="form-control is-invalid") }}
@@ -66,12 +70,13 @@
                                             {% endfor %}
                                         </div>
                                 {% else %}
-                                    {{ form.email(class="form-control",placeholder="Email") }}
+                                    {{ form.email(class="form-control") }}
                                 {% endif %}
                                 
                             </div>
                             <div class="form-group">
                                 
+                                {{ form.password.label(class="form-control-label") }}
 
                                 {% if form.password.errors %}
                                     {{ form.password(class="form-control is-invalid") }}
@@ -81,12 +86,13 @@
                                             {% endfor %}
                                         </div>
                                 {% else %}
-                                    {{ form.password(class="form-control",placeholder="Password") }}
+                                    {{ form.password(class="form-control") }}
                                 {% endif %}
                                 
                             </div>
                             <div class="form-group">
                                 
+                                {{ form.confirm_password.label(class="form-control-label") }}
                                 
                                 {% if form.confirm_password.errors %}
                                     {{ form.confirm_password(class="form-control is-invalid") }}
@@ -96,12 +102,15 @@
                                             {% endfor %}
                                         </div>
                                 {% else %}
-                                    {{ form.confirm_password(class="form-control",placeholder="Confirm Password") }}
+                                    {{ form.confirm_password(class="form-control") }}
                                 {% endif %}
                                 
                             </div>
                             <div class="form-group">
-                               {{ form.role(class="form-control") }}
+                                
+                                {{ form.role.label(class="form-control-label") }}
+                                
+                                {{ form.role(class="form-control") }}
                             </div>
                         </div>
                        

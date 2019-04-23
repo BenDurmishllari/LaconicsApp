@@ -13,10 +13,10 @@
         <div class="media">
             <img class="rounded-circle account-img" src="{{ profile_image }}">
             <div class="media-body">
-                <h6 class="account-heading">{{ user.name }} {{ user.surname }}</h6>
-                <a class="text-secondary">Employee Number: {{ user.employee_number }}</a>
-                <p class="text-secondary">Email: {{ user.email }}</p>
-                <legend class="border-bottom mb-4">Employee ID: {{ user.id }}</legend>
+                <legend class="border-bottom mb-4">Name: {{ user.name }} {{ user.surname }}</legend>
+                <p class="mr-2">Email: {{ user.email }}</p>
+                <p class="mr-2">Employee Number: {{ user.employee_number }}</p>
+                <p class="mr-2">Employee ID: {{ user.id }}</p>
             </div>
         </div>
  </div>
