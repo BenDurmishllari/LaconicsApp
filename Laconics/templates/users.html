@@ -12,7 +12,10 @@
                 <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + user.profile_image)}}">
                 <div class="media-body">
                     <div class="article-metadata">
-                        <small class="text-muted">{{ user.role }}: {{ user.name }} {{ user.surname }}</small>
+                        <a class="mr-2" href="{{ url_for('userprofile', id=user.id) }}">{{ user.role }}: {{ user.name }} {{ user.surname }}</a>
+                    </div>
+                    <div class="article-metadata">
+                        <small class="text-muted">{{ user.email }}</small>
                     </div>
                 </div>
         </article>

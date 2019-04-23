@@ -73,6 +73,16 @@ def users():
     return render_template('users.html', title='Users', users=users)
 
 
+@app.route('/userprofile/<int:id>')
+def userprofile(id):
+    
+    user = User.query.get_or_404(id)
+    
+    profile_image = url_for('static', filename = 'profile_pic/' + user.profile_image)
+
+
+    return render_template('users_profile.html', user=user, name=user.name, surname=user.surname, profile_image=profile_image)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -241,7 +251,7 @@ def expensesprofile(expense_id):
     try:
 
         expense = Expense.query.get_or_404(expense_id)
-        print(expense)
+        
         image = base64.b64encode(expense.receipt_image)
 
         return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))

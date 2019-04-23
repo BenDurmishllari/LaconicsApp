@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{% block body %}
+
+<div id="profileform" class="content-section">
+        <div class="media">
+            <legend class="border-bottom mb-4">{{ user.role }}</legend>
+        </div>
+        <div class="media">
+            <img class="rounded-circle account-img" src="{{ profile_image }}">
+            <div class="media-body">
+                <h6 class="account-heading">{{ user.name }} {{ user.surname }}</h6>
+                <a class="text-secondary">Employee Number: {{ user.employee_number }}</a>
+                <p class="text-secondary">Email: {{ user.email }}</p>
+            </div>
+        </div>
+ </div>
+
+
+
+
+{% endblock body%}
