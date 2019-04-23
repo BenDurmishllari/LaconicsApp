@@ -3,7 +3,7 @@ import io
 import sys
 import secrets
 import base64 
-from base64 import b64encode
+from base64 import b64encode, b64decode
 from io import BytesIO
 from PIL import Image
 from Laconics import app, db, bcrypt, mail
@@ -187,26 +187,46 @@ def new_expense():
 
     if form.validate_on_submit():
 
-        file = request.files['picture_expense']      
+        try:
         
-        # imgg = str.encode(imgg1)
-        expense = Expense(client_name = form.client_name.data, 
-                          client_project = form.client_project.data,
-                          client_or_saggezza = form.client_or_saggezza.data, 
-                          expenses_date = form.expenses_date.data, 
-                          billable_to = form.billable_to.data, 
-                          payment = form.payment.data, 
-                          receipt = form.receipt.data, 
-                          expense_category = form.expense_category.data,  
-                          GBP = form.GBP.data, 
-                          EUR = form.EUR.data, 
-                          USD = form.USD.data, 
-                          receipt_image=file.read(),
-                          description = form.description.data,
-                          author = current_user)
-        expense.verify_or_decline = 'Pending'
-        db.session.add(expense)
-        db.session.commit()
+            file = request.files['picture_expense']      
+            
+            expense = Expense(client_name = form.client_name.data, 
+                            client_project = form.client_project.data,
+                            client_or_saggezza = form.client_or_saggezza.data, 
+                            expenses_date = form.expenses_date.data, 
+                            billable_to = form.billable_to.data, 
+                            payment = form.payment.data, 
+                            receipt = form.receipt.data, 
+                            expense_category = form.expense_category.data,  
+                            GBP = form.GBP.data, 
+                            EUR = form.EUR.data, 
+                            USD = form.USD.data, 
+                            receipt_image=file.read(),
+                            description = form.description.data,
+                            author = current_user)
+            expense.verify_or_decline = 'Pending'
+            db.session.add(expense)
+            db.session.commit()
+        
+        except:
+            expense = Expense(client_name = form.client_name.data, 
+                            client_project = form.client_project.data,
+                            client_or_saggezza = form.client_or_saggezza.data, 
+                            expenses_date = form.expenses_date.data, 
+                            billable_to = form.billable_to.data, 
+                            payment = form.payment.data, 
+                            receipt = form.receipt.data, 
+                            expense_category = form.expense_category.data,  
+                            GBP = form.GBP.data, 
+                            EUR = form.EUR.data, 
+                            USD = form.USD.data,
+                            description = form.description.data,
+                            author = current_user)
+            expense.verify_or_decline = 'Pending'
+            db.session.add(expense)
+            db.session.commit()
+
         flash('Your expense has been created', 'success')
         return redirect(url_for('expenses'))
     return render_template('create_expense.html', title='New Expense', form=form)
@@ -214,19 +234,12 @@ def new_expense():
 
 @app.route('/expensesprofile/<int:expense_id>')
 def expensesprofile(expense_id):
+    
     expense = Expense.query.get_or_404(expense_id)
-    # ex = Expense.query.filter_by(expense_id = Expense.receipt_image)
-    # obj = Expense.query(Expense.expense_id == expense_id).fetch(1)[0]
-    obj = Expense.query.filter_by(expense_id=Expense.receipt_image)
-    image = base64.b64decode(obj)
-    # obj = base64.decodestring(expense.receipt_image)
-    # image = open('expic', 'rb') 
-    # image_read = image.read() 
-    # image_64_encode = base64.encodestring(Expense.receipt_image) 
-    # image_64_decode = base64.decodestring(Expense.receipt_image) 
-    # # create a writable image and write the decoding result image_result.write(image_64_decode)
-    # image_result = open('expic', 'wb') 
-    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name,image=image, obj=obj)
+    
+    image = base64.b64encode(expense.receipt_image)
+
+    return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))
 
 
 
@@ -295,7 +308,7 @@ def reset_email(user):
                        sender = 'ben.durmishllari@gmail.com',
                        recipients = [user.email])
     message.body = f''' Please click on link bellow to reset your password:
-    {url_for('reset_password', token=token, _external=True)}
+{url_for('reset_password', token=token, _external=True)}
 
     This is an email to reset your password if you don't make this request void this email and contact with the administrator
     '''

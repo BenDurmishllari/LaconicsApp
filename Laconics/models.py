@@ -60,7 +60,7 @@ class Expense(db.Model):
     GBP = db.Column(db.String(20), nullable = False)
     EUR = db.Column(db.String(20), nullable = True)
     USD = db.Column(db.String(20), nullable = True)
-    receipt_image = db.Column(db.LargeBinary)
+    receipt_image = db.Column(db.BLOB)
     description = db.Column(db.Text, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
 
