@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block body %}
+
+<section id="section2">
+    
+        <button onclick="location.href = '{{ url_for('register') }}';" type="submit"  class="float-right btn btn-info">+ Create New Account</button>
+        
+</section>
+</section>
+{% for user in users %}
+        <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + user.profile_image)}}">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <small class="text-muted">{{ user.role }}: {{ user.name }} {{ user.surname }}</small>
+                    </div>
+                </div>
+        </article>
+        
+{% endfor %}
+
+{% endblock body%}

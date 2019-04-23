@@ -67,6 +67,10 @@ def home():
     return render_template('home.html', title='Home')
 
 
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    users = User.query.all()
+    return render_template('users.html', title='Users', users=users)
 
 
 
@@ -100,6 +104,8 @@ def register():
     # if current_user.role != 'Admin':
     #     abort(403)
     return render_template('register.html', title='Register', form=form)  
+
+
 
 @app.route('/logout')
 def logout():
@@ -235,7 +241,7 @@ def expensesprofile(expense_id):
     try:
 
         expense = Expense.query.get_or_404(expense_id)
-        
+        print(expense)
         image = base64.b64encode(expense.receipt_image)
 
         return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))

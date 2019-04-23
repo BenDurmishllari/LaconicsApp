@@ -393,13 +393,25 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
-/* profile form */
+
 #alert
 {
   text-align: center;
   margin: 0 auto;
 }
 
+/* expense receipt image */
+.outer {
+  height: 300px;
+  width: 800px;
+  overflow: scroll;
+  position: relative;
+}
+
+.inner.large {
+  width: 500px;
+  height: 300px;
+}
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { ... }
 
@@ -412,9 +424,15 @@ a.article-title:hover {
   .content-section{
     width: 90%;
   }
+  .outer{
+    height: 600px;
+    width: 300px;
+    
+  }
 
 }
 
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) { ... }
+
 

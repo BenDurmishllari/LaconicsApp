@@ -59,6 +59,13 @@
                             </div>
                         </div>
             </div>
+            {% if expense.receipt_image  %}
+                <div class="outer">
+                    <div class="inner large">
+                         <img src="data:;base64,{{ image | safe }}"></img>
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <div class="article-metadata">
             {% if current_user.role == 'Manager' and expense.verify_or_decline == 'Pending' %} 
@@ -81,20 +88,7 @@
                 </form>
             {% endif %}
         </div>
-        <!-- <img src="data:;base64,{{ image | safe }}"/> -->
-        <!-- <figure class="figure">
-            <img src="data:;base64,{{ image | safe }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-        </figure> -->
-        
-            <!-- <div class="outer">
-                <div class="inner large">
-                    <img <img src="data:;base64,{{ image | safe }}">
-                </div>
-            </div> -->
             
-            <img src="data:;base64,{{ image | safe }}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-            
-       
     </article>
 
   {% endblock %}
