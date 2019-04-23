@@ -133,8 +133,8 @@ class PasswordRequest(FlaskForm):
     submit = SubmitField('Password Reset')
 
 class PasswordReset(FlaskForm):
-    password = StringField('Email', validators = [DataRequired(), Email()])
-    confirm_password = StringField('Email', validators = [DataRequired(), EqualTo('password')])
+    password = PasswordField('Password', validators = [DataRequired()])
+    confirm_password = PasswordField('Confirm password', validators = [DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Submit')
 

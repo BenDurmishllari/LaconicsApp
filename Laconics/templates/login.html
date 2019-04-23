@@ -51,8 +51,9 @@
                 {{ form.employee_number(class="form-control", placeholder="Username") }}
                 {{ form.password(class="form-control",placeholder="Password") }}
                 {{ form.submit(class="loginbox.button") }}
+                <a style="color:rgb(245, 243, 243);" href="{{ url_for('reset_password') }}">Reset Password</a>
         </form>
-        <a href="{{ url_for('reset_password') }}">Reset Password</a>
+        
     </div>
 
     

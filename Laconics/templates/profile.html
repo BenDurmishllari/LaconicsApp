@@ -5,6 +5,10 @@
         <legend class="border-bottom mb-4">{{ current_user.role }}</legend>
         <div class="media">
             <img class="rounded-circle account-img" src="{{ profile_image }}">
+
+        </div>
+        <div class="media">
+            
             <div class="media-body">
                 <h6 class="account-heading">{{ current_user.name }} {{ current_user.surname }}</h6>
                 <a class="text-secondary">Employee Number: {{ current_user.employee_number }}</a>

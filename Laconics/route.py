@@ -182,9 +182,6 @@ def new_expense():
 
     form = CreateExpenseForm()
 
-    
-
-
     if form.validate_on_submit():
 
         try:
@@ -315,7 +312,7 @@ def reset_email(user):
                        sender = 'ben.durmishllari@gmail.com',
                        recipients = [user.email])
     message.body = f''' Please click on link bellow to reset your password:
-{url_for('reset_password', token=token, _external=True)}
+{url_for('change_password', token=token, _external=True)}
 
     This is an email to reset your password if you don't make this request void this email and contact with the administrator
     '''
@@ -339,7 +336,7 @@ def reset_password():
 
 
 @app.route('/change_password/<token>', methods=['GET', 'POST'])
-def change_password():
+def change_password(token):
     if current_user.is_authenticated:
         return redirect('home')
     user = User.verify_reset_token(token)
@@ -355,7 +352,7 @@ def change_password():
         db.session.commit()
         flash('Your password has been reseted', 'success')
         return redirect(url_for('login'))
-    return render_template('change_password.html', title = 'Change Password', form=form)
+    return render_template('reset_password.html', title = 'Change Password', form=form)
 
 
 
