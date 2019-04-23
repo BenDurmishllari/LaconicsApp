@@ -83,6 +83,22 @@ def userprofile(id):
 
     return render_template('users_profile.html', user=user, name=user.name, surname=user.surname, profile_image=profile_image)
 
+"""
+ This method will work only when the account that you want
+ to delete it doesn't have any exist expense
+"""
+@app.route('/userprofile/<int:id>/delete', methods=['POST'])
+def delete_user(id):
+    
+    user = User.query.get_or_404(id)
+
+    if current_user.role != 'Admin':
+        abort(403)
+    db.session.delete(user)
+    db.session.commit()
+    flash('Employee account has been deleted', 'success')
+    return redirect(url_for('users'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -205,37 +221,37 @@ def new_expense():
             file = request.files['picture_expense']      
             
             expense = Expense(client_name = form.client_name.data, 
-                            client_project = form.client_project.data,
-                            client_or_saggezza = form.client_or_saggezza.data, 
-                            expenses_date = form.expenses_date.data, 
-                            billable_to = form.billable_to.data, 
-                            payment = form.payment.data, 
-                            receipt = form.receipt.data, 
-                            expense_category = form.expense_category.data,  
-                            GBP = form.GBP.data, 
-                            EUR = form.EUR.data, 
-                            USD = form.USD.data, 
-                            receipt_image=file.read(),
-                            description = form.description.data,
-                            author = current_user)
+                              client_project = form.client_project.data,
+                              client_or_saggezza = form.client_or_saggezza.data, 
+                              expenses_date = form.expenses_date.data, 
+                              billable_to = form.billable_to.data, 
+                              payment = form.payment.data, 
+                              receipt = form.receipt.data, 
+                              expense_category = form.expense_category.data,  
+                              GBP = form.GBP.data, 
+                              EUR = form.EUR.data, 
+                              USD = form.USD.data, 
+                              receipt_image=file.read(),
+                              description = form.description.data,
+                              author = current_user)
             expense.verify_or_decline = 'Pending'
             db.session.add(expense)
             db.session.commit()
         
         except:
             expense = Expense(client_name = form.client_name.data, 
-                            client_project = form.client_project.data,
-                            client_or_saggezza = form.client_or_saggezza.data, 
-                            expenses_date = form.expenses_date.data, 
-                            billable_to = form.billable_to.data, 
-                            payment = form.payment.data, 
-                            receipt = form.receipt.data, 
-                            expense_category = form.expense_category.data,  
-                            GBP = form.GBP.data, 
-                            EUR = form.EUR.data, 
-                            USD = form.USD.data,
-                            description = form.description.data,
-                            author = current_user)
+                              client_project = form.client_project.data,
+                              client_or_saggezza = form.client_or_saggezza.data, 
+                              expenses_date = form.expenses_date.data, 
+                              billable_to = form.billable_to.data, 
+                              payment = form.payment.data, 
+                              receipt = form.receipt.data, 
+                              expense_category = form.expense_category.data,  
+                              GBP = form.GBP.data, 
+                              EUR = form.EUR.data, 
+                              USD = form.USD.data,
+                              description = form.description.data,
+                              author = current_user)
             expense.verify_or_decline = 'Pending'
             db.session.add(expense)
             db.session.commit()
