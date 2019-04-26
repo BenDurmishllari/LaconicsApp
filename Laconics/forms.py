@@ -109,6 +109,18 @@ class CreateExpenseForm(FlaskForm):
     
     expense_category = SelectField('Category', choices = [('Employee Rewards', 'Employee Rewards'), 
                                                           ('Consumables', 'Consumables'), 
+                                                          ('General Office Expenses', 'General Office Expenses'),
+                                                          ('General Travel: Accommodation','General Travel: Accommodation'),
+                                                          ('General Travel: Travel', 'General Travel: Travel'),
+                                                          ('General Travel: Subsistence', 'General Travel: Subsistence'),
+                                                          ('Sales Entertaining','Sales Entertaining'),
+                                                          ('Staff Entertaining','Staff Entertaining'),
+                                                          ('Recruitment fees','Recruitment fees'),
+                                                          ('Visa & Immigration','Visa & Immigration'),
+                                                          ('Software & IT','Software & IT'),
+                                                          ('Staff Training','Staff Training'),
+                                                          ('Stationery & Office Supplies','Stationery & Office Supplies'),
+                                                          ('Telephone & Conference','Telephone & Conference'),
                                                           ('Other', 'Other')])
     
     GBP = FloatField('Cost in GBP:  Required *', validators=[validators.NumberRange(min=0)])
@@ -137,6 +149,3 @@ class PasswordReset(FlaskForm):
     confirm_password = PasswordField('Confirm password', validators = [DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Submit')
-
-
-

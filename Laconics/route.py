@@ -2,7 +2,7 @@ import os
 import io
 import sys
 import secrets
-import base64 
+import base64
 from base64 import b64encode, b64decode
 from io import BytesIO
 from PIL import Image
@@ -57,20 +57,28 @@ def login():
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
    
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', 
+                            title='Login', 
+                            form=form)
 
 
 
 
 @app.route('/home')
 def home():
-    return render_template('home.html', title='Home')
+    return render_template('home.html', 
+                            title='Home')
 
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():
+
     users = User.query.all()
-    return render_template('users.html', title='Users', users=users)
+
+    return render_template('users.html', 
+                            title='Users', 
+                            users=users)
+                            
 
 
 @app.route('/userprofile/<int:id>')
@@ -81,7 +89,12 @@ def userprofile(id):
     profile_image = url_for('static', filename = 'profile_pic/' + user.profile_image)
 
 
-    return render_template('users_profile.html', user=user, name=user.name, surname=user.surname, profile_image=profile_image)
+    return render_template('users_profile.html', 
+                            user=user, 
+                            name=user.name, 
+                            surname=user.surname, 
+                            profile_image=profile_image)
+                            
 
 
 """
@@ -103,7 +116,7 @@ def delete_user(id):
         return redirect(url_for('users'))
     
     except:
-        flash('You can"t delete this account expenses still exist for this author', 'success')
+        flash('You can"t delete this account expenses still exist for this author', 'danger')
         return redirect(url_for('users'))
 
 
@@ -137,7 +150,9 @@ def register():
         return redirect(url_for('home'))
     # if current_user.role != 'Admin':
     #     abort(403)
-    return render_template('register.html', title='Register', form=form)  
+    return render_template('register.html', 
+                            title='Register', 
+                            form=form)  
 
 
 
@@ -204,7 +219,9 @@ def expenses():
 
     expenses = Expense.query.filter_by(user_id=current_user.id).all()
     
-    return render_template('expenses.html', title='Expenses', expenses=expenses)
+    return render_template('expenses.html', 
+                            title='Expenses', 
+                            expenses=expenses)
 
 
 
@@ -213,7 +230,9 @@ def reports():
     expenses = Expense.query.all()
     if current_user.role == 'User':
         abort(403)
-    return render_template('reports.html', title='Reports', expenses=expenses)
+    return render_template('reports.html', 
+                            title='Reports', 
+                            expenses=expenses)
     
 
 @app.route('/create_expense/new', methods=['GET', 'POST'])
@@ -266,7 +285,9 @@ def new_expense():
 
         flash('Your expense has been created', 'success')
         return redirect(url_for('expenses'))
-    return render_template('create_expense.html', title='New Expense', form=form)
+    return render_template('create_expense.html', 
+                            title='New Expense', 
+                            form=form)
 
 
 @app.route('/expensesprofile/<int:expense_id>')
@@ -284,7 +305,9 @@ def expensesprofile(expense_id):
         
         expense = Expense.query.get_or_404(expense_id)
         
-        return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name)
+        return render_template('expensesprofile.html', 
+                                expense=expense, 
+                                client_name=expense.client_name)
 
 
 @app.route('/expensesprofile/<int:expense_id>/verify', methods=['GET', 'POST'])
@@ -296,7 +319,9 @@ def verify(expense_id):
     return redirect(url_for('reports'))
     if current_user.role != 'Manager':
         abort(403)
-    return render_template('expenses.html', title='Expenses', expense=expense)
+    return render_template('expenses.html', 
+                            title='Expenses', 
+                            expense=expense)
 
 
 
@@ -309,7 +334,9 @@ def decline(expense_id):
     return redirect(url_for('reports'))
     if current_user.role != 'Manager':
         abort(403)
-    return render_template('expenses.html', title='Expenses', expense=expense)
+    return render_template('expenses.html', 
+                            title='Expenses', 
+                            expense=expense)
 
 
 @app.route('/expensesprofile/<int:expense_id>/edit', methods=['GET', 'POST'])
@@ -330,7 +357,10 @@ def edit_expense(expense_id):
         form.client_or_saggezza.data = expense.client_or_saggezza
     if current_user.role != 'Admin':
         abort(403)
-    return render_template('edit_expense.html', title='Edit Expense', form=form, expense=expense)
+    return render_template('edit_expense.html', 
+                            title='Edit Expense', 
+                            form=form, 
+                            expense=expense)
 
 
 @app.route('/expensesprofile/<int:expense_id>/delete', methods=['POST'])
@@ -372,7 +402,9 @@ def reset_password():
         reset_email(user)
         flash('Emails for reset password has been sended', 'info')
         return redirect(url_for('login'))
-    return render_template('reset_request.html', title='Reset Password', form=form)
+    return render_template('reset_request.html', 
+                            title='Reset Password', 
+                            form=form)
 
 
 @app.route('/change_password/<token>', methods=['GET', 'POST'])
@@ -392,7 +424,9 @@ def change_password(token):
         db.session.commit()
         flash('Your password has been reseted', 'success')
         return redirect(url_for('login'))
-    return render_template('reset_password.html', title = 'Change Password', form=form)
+    return render_template('reset_password.html', 
+                            title = 'Change Password', 
+                            form=form)
 
 
 

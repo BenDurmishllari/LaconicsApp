@@ -31,43 +31,6 @@ body {
   background-image: linear-gradient(90deg,#4c5e6a 0,#37444c 100%);
 }
 
-/* arrow drop down profile 
-.nav-side-menu ul :not(collapsed) .arrow:before,
-.nav-side-menu li :not(collapsed) .arrow:before {
-  font-family: FontAwesome;
-  content: "\f078";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-  float: right;
-}
-*/
-
-/* profile options drop down 
-.nav-side-menu ul .sub-menu li:before,
-.nav-side-menu li .sub-menu li:before {
-  font-family: FontAwesome;
-  content: "\f105";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-}
-*/
-
-/* profile options drop down 
-.nav-side-menu ul .sub-menu li:before,
-.nav-side-menu li .sub-menu li:before {
-  font-family: FontAwesome;
-  content: "\f105";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-}
-*/
-
 .nav-side-menu .toggle-btn {
   display: none;
 }
@@ -79,20 +42,6 @@ body {
   line-height: 35px;
   cursor: pointer;
   padding:5% 0 5% 0;
-
-  /*    
-    .collapsed{
-       .arrow:before{
-                 font-family: FontAwesome;
-                 content: "\f053";
-                 display: inline-block;
-                 padding-left:10px;
-                 padding-right: 10px;
-                 vertical-align: middle;
-                 float:right;
-            }
-     }
-*/
 }
 
 .fas
@@ -153,6 +102,7 @@ body {
   -ms-transition: all 1s ease;
   transition: all 1s ease;
 }
+/*default 767 */
 @media (max-width: 767px) {
   .nav-side-menu {
     position: relative;
@@ -174,17 +124,9 @@ body {
   }
 
 }
-/*
-.brand {
-  text-align: left !important;
-  font-size: 22px;
-  padding-left: 20px;
-  line-height: 50px !important;
-}
-*/
 
-
-@media (min-width: 767px) {
+/* default 992 */
+@media (min-width: 992px) {
   .nav-side-menu .menu-list .menu-content {
     display: block;
   }
@@ -301,6 +243,8 @@ body {
   height: 50px;
 }
 
+
+
 /*register form*/
 .content-section
 {
@@ -395,9 +339,10 @@ a.article-title:hover {
 }
 
 #alert
-{
+{ 
   text-align: center;
   margin: 0 auto;
+  
 }
 
 /* expense receipt image */
