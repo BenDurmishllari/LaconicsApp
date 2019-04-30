@@ -3,7 +3,7 @@ import io
 import sys
 import secrets
 import base64
-from base64 import b64encode, b64decode
+#from base64 import b64encode, b64decode
 from io import BytesIO
 from PIL import Image
 from Laconics import app, db, bcrypt, mail
@@ -299,7 +299,10 @@ def expensesprofile(expense_id):
         
         image = base64.b64encode(expense.receipt_image)
 
-        return render_template('expensesprofile.html', expense=expense, client_name=expense.client_name, image=image.decode('utf-8'))
+        return render_template('expensesprofile.html', 
+                                expense=expense, 
+                                client_name=expense.client_name, 
+                                image=image.decode('utf-8'))
     
     except:
         
@@ -400,7 +403,7 @@ def reset_password():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.mail.data).first()
         reset_email(user)
-        flash('Emails for reset password has been sended', 'info')
+        flash('Email for reset password has been sended', 'info')
         return redirect(url_for('login'))
     return render_template('reset_request.html', 
                             title='Reset Password', 
