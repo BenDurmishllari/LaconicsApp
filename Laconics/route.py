@@ -1,10 +1,24 @@
+##########################################################################
+# Project: Saggezza Expense App                                          #
+# Full Stack Development: Arben Durmishllari, University of Sunderland   #
+# Second Year Student (Computer Science)                                 #
+# Year: 2018-2019                                                        #
+# Email: ben.durmishllari@gmail.com                                      #
+# Linkedin: Ben Durmishllari                                             #
+# Github: BenDurmishllari                                                #
+##########################################################################
+
+
+
+"""
+ libraries
+"""
 import os 
 import io
 import sys
 import secrets
 import base64
-#from base64 import b64encode, b64decode
-from io import BytesIO
+#from io import BytesIO
 from PIL import Image
 from Laconics import app, db, bcrypt, mail
 from flask import (render_template, 
@@ -26,11 +40,13 @@ from flask_login import (login_user,
                          logout_user, 
                          login_required, 
                          current_user)
-
 from flask_mail import Mail, Message
 
 
-
+"""
+ login route, methods helping to
+ redirect the app when its running on the log in always
+"""
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():

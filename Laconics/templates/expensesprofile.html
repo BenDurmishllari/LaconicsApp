@@ -30,7 +30,7 @@
                                 <div class="form-group">
                                     <p class="article-content">Billable to client: {{ expense.billable_to }}</p>
                                 </div>
-                                <div class="form-group">
+                                <div class="card" style="width: 18rem;">
                                     <p class="article-content">Description: {{ expense.description }}</p>
                                 </div>
                     </div>
@@ -45,16 +45,16 @@
                                 <p class="article-content">Receipt: {{ expense.receipt }}</p>
                             </div>
                             <div class="form-group">
-                                <p class="article-content">Amount GBP: {{ expense.GBP }}£</p>
+                                <p class="article-content">Amount GBP: {{ expense.GBP }} £</p>
                                 {% if expense.EUR == '' %}
                                     <p class="article-content">Amount EUR: 0€</p>
                                 {% else %}
-                                    <p class="article-content">Amount EUR:  {{ expense.EUR }}€</p>
+                                    <p class="article-content">Amount EUR:  {{ expense.EUR }} €</p>
                                 {% endif %}
                                 {% if expense.USD == '' %}
                                     <p class="article-content">Amount USD: 0$</p>
                                 {% else %}
-                                    <p class="article-content">Amount USD: {{ expense.USD }}$</p>
+                                    <p class="article-content">Amount USD: {{ expense.USD }} $</p>
                                 {% endif %}
                             </div>
                         </div>
