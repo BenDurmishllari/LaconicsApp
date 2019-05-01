@@ -328,12 +328,24 @@ a.article-title:hover {
   width: 500px;
   height: 300px;
 }
+.card
+{
+  height: 150px;
+  width: 50rem;
+  overflow: scroll;
+  position: relative;
+}
 
 #menu-content li a 
 {
   display: block;
 }
 
+.guideline 
+{
+  padding: 30px;
+  border: 5px solid gray;
+}
 
 /*default 767 */
 @media (max-width: 768px) {
@@ -408,8 +420,12 @@ a.article-title:hover {
   }
   .outer{
     height: 600px;
-    width: 300px;
-    
+    width: 355px;
+  }
+  .card
+  {
+    width: 22rem;
+    height: 100px;
   }
 
 }

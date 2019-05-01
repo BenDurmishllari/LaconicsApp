@@ -47,6 +47,16 @@
                                         {% endif %}
                                     </div>
                                     <div class="form-group">
+                                       
+                                        {{ form.password(class="form-control",placeholder="Password") }}
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        {{ form.confirm_password(class="form-control",placeholder="Confirm Password") }}
+                                        
+                                    </div>
+                                    <div class="form-group">
                                         {{ form.picture.label() }}
                                         {{ form.picture(class="form-control-file") }}
                                             

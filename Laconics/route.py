@@ -10,17 +10,25 @@
 
 
 
-"""
- libraries
-"""
+# imports
 import os 
-import io
+# import io
 import sys
 import secrets
 import base64
 #from io import BytesIO
+
+# import for the image
+# this library manage the
+# workability of the users 
+# profile image
 from PIL import Image
+
+# imports from the module
 from Laconics import app, db, bcrypt, mail
+
+# specific flask libraries
+# for different workabilities
 from flask import (render_template, 
                    redirect, 
                    url_for, 
@@ -28,6 +36,9 @@ from flask import (render_template,
                    flash, 
                    request, 
                    abort)
+
+# importing all the forms 
+# from the forms.py
 from Laconics.forms import (RegistrationForm, 
                             UpdateProfileForm, 
                             LoginForm, 
@@ -35,30 +46,48 @@ from Laconics.forms import (RegistrationForm,
                             Edit_expenseForm,
                             PasswordRequest,
                             PasswordReset)
+
+# importing all the db models 
+# from the models.py
 from Laconics.models import User, Expense
+
+# specific flask libraries 
+# to validate and manage different
+# situations on the app
 from flask_login import (login_user, 
                          logout_user, 
                          login_required, 
                          current_user)
+
+# specific flask libary for the email
+# that it's helping the workability of
+# the reset password, you'll find the 
+# configurations on the __init__.py 
 from flask_mail import Mail, Message
 
 
 """
- login route, methods helping to
- redirect the app when its running on the log in always
+ login route, 
+ methods redirect the app
+ to this route always when you access 
+ the app for the first time
 """
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     
+    
     # check the user if it's already log in to don't allow
     # to to go on login page
-    """
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    """
-
-    form=LoginForm()
+        return redirect(url_for('guideline'))
+    
+    # saving on variable the log in form
+    # they communicate with form from the form tag
+    # that you can find in all the forms on the app
+    # you'll find this command in all the routes that
+    # they manage forms from the app
+    form = LoginForm()
 
     if form.validate_on_submit():
         
@@ -66,10 +95,14 @@ def login():
         
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
+                        
+                        
                         # this line of code give the access for 'remember me' option in log in page
-                        # I didn't add it for security reason ( remember = form.remember.data)
+                        # I didn't add it for security reason in case if the device get lost
+                        # ( remember = form.remember.data)
+                        
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('guideline'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
    
@@ -80,10 +113,11 @@ def login():
 
 
 
-@app.route('/home')
-def home():
-    return render_template('home.html', 
-                            title='Home')
+@app.route('/guideline')
+@login_required
+def guideline():
+    return render_template('guideline.html', 
+                            title='guideline')
 
 
 @app.route('/users', methods=['GET', 'POST'])
@@ -163,7 +197,7 @@ def register():
         db.session.commit()
         
         flash('Employee account has been created', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('guideline'))
     # if current_user.role != 'Admin':
     #     abort(403)
     return render_template('register.html', 
@@ -206,12 +240,17 @@ def profile():
     
     if form.validate_on_submit():
         
+        # hased_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        # user.password = hased_password
+        # db.session.commit()
 
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.profile_image = picture_file
         current_user.name = form.name.data
         current_user.email = form.email.data
+        hased_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        current_user.password = hased_password
         db.session.commit()
         flash('Your profile info has been updated', 'success')
     
@@ -413,7 +452,7 @@ def reset_email(user):
 def reset_password():
 
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('guideline'))
     
     form = PasswordRequest()
     if form.validate_on_submit():
@@ -429,7 +468,7 @@ def reset_password():
 @app.route('/change_password/<token>', methods=['GET', 'POST'])
 def change_password(token):
     if current_user.is_authenticated:
-        return redirect('home')
+        return redirect('guideline')
     user = User.verify_reset_token(token)
 
     if user is None:

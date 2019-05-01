@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block body %}
 
-    <article class="media content-section">
+    <article class="content-section">
         <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pic/' + expense.author.profile_image) }}">
         <div class="media-body">
         <div class="article-metadata">
@@ -29,10 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <p class="article-content">Billable to client: {{ expense.billable_to }}</p>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <p class="article-content">Description: {{ expense.description }}</p>
-                                </div>
+                                </div> 
                     </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -59,13 +56,18 @@
                             </div>
                         </div>
             </div>
-            {% if expense.receipt_image  %}
-                <div class="outer">
-                    <div class="inner large">
-                         <img src="data:;base64,{{ image | safe }}"></img>
-                    </div>
+            <div class="row">
+                <div class="card">
+                    <p class="article-content">Description: {{ expense.description }}</p>
                 </div>
-            {% endif %}
+            </div>
+            <div class="row">
+                {% if expense.receipt_image  %}
+                     <div class="outer">
+                        <img src="data:;base64,{{ image | safe }}"></img>
+                    </div>
+                {% endif %}
+            </div>
         </div>
         <div class="article-metadata">
             {% if current_user.role == 'Manager' and expense.verify_or_decline == 'Pending' %} 
