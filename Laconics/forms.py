@@ -137,10 +137,37 @@ class CreateExpenseForm(FlaskForm):
 
 
 class Edit_expenseForm(FlaskForm):
+    
+    receipt = SelectField('Receipt', choices = [('Yes-Soft Copy', 'Yes-Soft Copy'), 
+                                                ('Yes-Hard Copy', 'Yes-Hard Copy'), 
+                                                ('No-Receipt', 'No-Receipt')])
+    
+    expense_category = SelectField('Category', choices = [('Employee Rewards', 'Employee Rewards'), 
+                                                          ('Consumables', 'Consumables'), 
+                                                          ('General Office Expenses', 'General Office Expenses'),
+                                                          ('General Travel: Accommodation','General Travel: Accommodation'),
+                                                          ('General Travel: Travel', 'General Travel: Travel'),
+                                                          ('General Travel: Subsistence', 'General Travel: Subsistence'),
+                                                          ('Sales Entertaining','Sales Entertaining'),
+                                                          ('Staff Entertaining','Staff Entertaining'),
+                                                          ('Recruitment fees','Recruitment fees'),
+                                                          ('Visa & Immigration','Visa & Immigration'),
+                                                          ('Software & IT','Software & IT'),
+                                                          ('Staff Training','Staff Training'),
+                                                          ('Stationery & Office Supplies','Stationery & Office Supplies'),
+                                                          ('Telephone & Conference','Telephone & Conference'),
+                                                          ('Other', 'Other')])
+    
     client_project = StringField('Client Project', validators = [DataRequired()])
+    
     client_or_saggezza = SelectField('Client or Saggezza:', choices = [('Saggezza UK', 'Saggezza UK'), 
                                                                        ('Saggezza US', 'Saggezza US'), 
                                                                        ('Client', 'Client')])
+    billable_to = SelectField('Billable to client ?', choices = [('Yes', 'Yes'), ('No', 'No')])
+
+    payment = SelectField('Payment Method', choices = [('Own Payment', 'Own Payment'), 
+                                                       ('Corporate Card', 'Corporate Card')])
+
     submit = SubmitField('Update Expense')
 
 class PasswordRequest(FlaskForm):

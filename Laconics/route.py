@@ -1,11 +1,11 @@
 ##########################################################################
 # Project: Saggezza Expense App                                          #
-# Full Stack Development: Arben Durmishllari, University of Sunderland   #
+# Full Stack Development: Arben Durmishllari                             #
 # Second Year Student (Computer Science)                                 #
 # Year: 2018-2019                                                        #
 # Email: ben.durmishllari@gmail.com                                      #
-# Linkedin: Ben Durmishllari                                             #
-# Github: BenDurmishllari                                                #
+# Github: BenDurmishllari                                             #
+# LinkedIn: Ben Durmishllari                                                #
 ##########################################################################
 
 
@@ -83,7 +83,7 @@ def login():
         return redirect(url_for('guideline'))
     
     # saving on variable the log in form
-    # they communicate with form from the form tag
+    # they communicate with form from the "form tag"
     # that you can find in all the forms on the app
     # you'll find this command in all the routes that
     # they manage forms from the app
@@ -240,9 +240,6 @@ def profile():
     
     if form.validate_on_submit():
         
-        # hased_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        # user.password = hased_password
-        # db.session.commit()
 
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
@@ -405,8 +402,12 @@ def edit_expense(expense_id):
 
    
     if form.validate_on_submit():
+        expense.receipt = form.receipt.data
+        expense.expense_category = form.expense_category.data
         expense.client_project = form.client_project.data
         expense.client_or_saggezza = form.client_or_saggezza.data
+        expense.billable_to = form.billable_to.data
+        expense.payment = form.payment.data
         db.session.commit()
         flash('Expense has been updated', 'success')
         return redirect(url_for('expensesprofile', expense_id=expense.expense_id))
