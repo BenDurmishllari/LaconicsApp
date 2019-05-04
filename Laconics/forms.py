@@ -171,17 +171,20 @@ class Edit_expenseForm(FlaskForm):
     submit = SubmitField('Update Expense')
 
 class PasswordRequest(FlaskForm):
+    
     mail = StringField('Email', validators = [DataRequired(), Email()])
     
     submit = SubmitField('Password Reset')
 
 class PasswordReset(FlaskForm):
+    
     password = PasswordField('Password', validators = [DataRequired()])
     confirm_password = PasswordField('Confirm password', validators = [DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Submit')
 
 class SendPayroll(FlaskForm):
+    
     mail = StringField('Email', validators = [DataRequired(), Email()])
     
-    submit = SubmitField('Password Reset')
+    submit = SubmitField('Send Expense')

@@ -497,8 +497,9 @@ def payrollmail(expense_id):
     message = Message('Request to reset your password',
                        sender = 'ben.durmishllari@gmail.com',
                        recipients = [user.email])
-    message.body = ('Clinet Name: ' + expense.client_name + "\n" 
-                  + 'Client Project ' + expense.client_project)
+    message.body = ('Expense ID: ' + str(expense.expense_id) + '\n'
+                 + 'Author Employee Number: '  + expense.author.employee_number + '\n'
+                 + 'Expense Author FullName: ' + expense.author.name + ' ' +  expense.author.surname)
 
     mail.send(message)
 
@@ -513,7 +514,7 @@ def send_payroll(expense_id):
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.mail.data).first()
         payrollmail(expense_id)
-        flash('payment', 'info')
+        flash('Your expense has been sent', 'info')
         return redirect(url_for('expenses'))
     return render_template('send_payroll.html', 
                             title='Reset Password', 
