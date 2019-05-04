@@ -33,8 +33,8 @@ login_manager.login_message_category = 'info'
 # configs for the mails for reset passwords
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'ben.durmishllari@gmail.com'
+app.config['MAIL_PASSWORD'] = 'george_7_thrilos'
 app.config['MAIL_USE_TLS'] = True
 mail = Mail(app)
 

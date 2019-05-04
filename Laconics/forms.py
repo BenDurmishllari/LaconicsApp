@@ -180,3 +180,8 @@ class PasswordReset(FlaskForm):
     confirm_password = PasswordField('Confirm password', validators = [DataRequired(), EqualTo('password')])
 
     submit = SubmitField('Submit')
+
+class SendPayroll(FlaskForm):
+    mail = StringField('Email', validators = [DataRequired(), Email()])
+    
+    submit = SubmitField('Password Reset')

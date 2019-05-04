@@ -4,8 +4,8 @@
 # Second Year Student (Computer Science)                                 #
 # Year: 2018-2019                                                        #
 # Email: ben.durmishllari@gmail.com                                      #
-# Github: BenDurmishllari                                             #
-# LinkedIn: Ben Durmishllari                                                #
+# Github: BenDurmishllari                                                #
+# LinkedIn: Ben Durmishllari                                             #
 ##########################################################################
 
 
@@ -45,7 +45,8 @@ from Laconics.forms import (RegistrationForm,
                             CreateExpenseForm, 
                             Edit_expenseForm,
                             PasswordRequest,
-                            PasswordReset)
+                            PasswordReset,
+                            SendPayroll)
 
 # importing all the db models 
 # from the models.py
@@ -489,4 +490,33 @@ def change_password(token):
 
 
 
+
+def payrollmail(expense_id):
+    user = User.query.get(2)
+    expense = Expense.query.get_or_404(expense_id)
+    message = Message('Request to reset your password',
+                       sender = 'ben.durmishllari@gmail.com',
+                       recipients = [user.email])
+    message.body = ('Clinet Name: ' + expense.client_name + "\n" 
+                  + 'Client Project ' + expense.client_project)
+
+    mail.send(message)
+
+
+
+@app.route('/send_payroll/<int:expense_id>/sendpayroll', methods=['GET', 'POST'])
+def send_payroll(expense_id):
+    
+    expense = Expense.query.get_or_404(expense_id)
+
+    form = SendPayroll()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.mail.data).first()
+        payrollmail(expense_id)
+        flash('payment', 'info')
+        return redirect(url_for('expenses'))
+    return render_template('send_payroll.html', 
+                            title='Reset Password', 
+                            form=form,
+                            expense=expense)
 
