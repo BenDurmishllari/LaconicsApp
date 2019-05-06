@@ -5,24 +5,14 @@
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Edit Expenses</legend>
+                <legend class="border-bottom mb-4">Send Expense</legend>
                 <div class="form-content">
+                    <div class="form-group">
+                        
+                        {{ form.mail.label(class="form-control-label") }}
+                        {{ form.mail(class="form-control") }}
                     
-                            <div class="form-group">
-                                {{ form.mail.label(class="form-control-label") }}
-                                
-                                {% if form.mail.errors %}
-                                    {{ form.mail(class="form-control is-invalid") }}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.mail.errors %}
-                                                <span>{{ error }}</span>
-                                            {% endfor %}
-                                        </div>
-                                {% else %}
-                                    {{ form.mail(class="form-control") }}
-                                {% endif %}
-                                
-                            </div>
+                    </div>
                     <div class="form-group">
                             {{ form.submit(class="btn btn-outline-info") }}
                     </div>

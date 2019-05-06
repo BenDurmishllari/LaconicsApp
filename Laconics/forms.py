@@ -131,7 +131,7 @@ class CreateExpenseForm(FlaskForm):
     EUR = FloatField('Cost in EUR: (optional)', validators=[validators.NumberRange(min=0)])
     USD = FloatField('Cost in USD: (optional)', validators=[validators.NumberRange(min=0)])
     
-    picture_expense = FileField('Upload Receipt Image' , validators = [FileAllowed(['jpg','png','tiff','pdf'])])
+    picture_expense = FileField('Upload Receipt Image' , validators = [FileAllowed(['jpg','png','tiff'])])
     
     submit = SubmitField('Add Expense')
 

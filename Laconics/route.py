@@ -497,15 +497,34 @@ def payrollmail(expense_id):
     message = Message('Request to reset your password',
                        sender = 'ben.durmishllari@gmail.com',
                        recipients = [user.email])
-    message.body = ('Expense ID: ' + str(expense.expense_id) + '\n'
-                 + 'Author Employee Number: '  + expense.author.employee_number + '\n'
-                 + 'Expense Author FullName: ' + expense.author.name + ' ' +  expense.author.surname)
+    message.body = ('Expense ID: ' + str(expense.expense_id) + '\n' + '\n'
+                 + 'Expense Status: ' + expense.verify_or_decline + '\n' + '\n'
+                 + 'Expense Author Employee Number: '  + expense.author.employee_number + '\n' + '\n'
+                 + 'Expense Author FullName: ' + expense.author.name + '  ' +  expense.author.surname + '\n' + '\n'
+                 + 'Expense Author Email: ' + expense.author.email + '\n' + '\n'
+                 + '\n'
+                 + '\n'
+                 + '----------------------------------------- Expense Info ----------------------------------------------' + '\n'
+                 + '\n' 
+                 + '\n'
+                 + 'Client Name: ' + expense.client_name + '\n' + '\n'
+                 + 'Client: ' + expense.client_or_saggezza + '\n' + '\n'
+                 + 'Category: ' + expense.expense_category + '\n' + '\n'
+                 + 'Payment: ' + expense.payment + '\n' + '\n'
+                 + 'Expense Date: ' + str(expense.expenses_date.strftime('%d-%m-%Y')) + '\n' + '\n'
+                 + 'Receipt: ' + expense.receipt + '\n' + '\n'
+                 + 'Client Project: ' + expense.client_project  +'\n' + '\n'
+                 + 'Billable to client: ' + expense.billable_to +'\n' + '\n'
+                 + 'Amount GBP: ' + str(expense.GBP) + '\n' + '\n'
+                 + 'Amount EUR: ' + str(expense.EUR) + '\n' + '\n'
+                 + 'Amount USD: ' + str(expense.USD) + '\n' + '\n'
+                 + 'Expense Description: ' + expense.description)
 
     mail.send(message)
 
 
 
-@app.route('/send_payroll/<int:expense_id>/sendpayroll', methods=['GET', 'POST'])
+@app.route('/send_payroll/<int:expense_id>/sendexpense', methods=['GET', 'POST'])
 def send_payroll(expense_id):
     
     expense = Expense.query.get_or_404(expense_id)
@@ -516,8 +535,8 @@ def send_payroll(expense_id):
         payrollmail(expense_id)
         flash('Your expense has been sent', 'info')
         return redirect(url_for('expenses'))
+    
     return render_template('send_payroll.html', 
-                            title='Reset Password', 
-                            form=form,
-                            expense=expense)
+                            title='Send Expense', 
+                            form=form)
 
