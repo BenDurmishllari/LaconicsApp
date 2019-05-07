@@ -61,7 +61,7 @@ class LoginForm(FlaskForm):
     
     password = PasswordField('Password', validators = [DataRequired()])
     
-    submit = SubmitField('Sign Up')
+    submit = SubmitField('Sign In')
 
 
 class UpdateProfileForm(FlaskForm):

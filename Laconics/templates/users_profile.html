@@ -18,6 +18,7 @@
                 <legend class="border-bottom mb-4">Full Name: {{ user.name }} {{ user.surname }}</legend>
                 <p class="mr-2">Email: {{ user.email }}</p>
                 <p class="mr-2">Employee Number: {{ user.employee_number }}</p>
+                <p class="mr-2">Expenses: {{ user.expenses|selectattr('author')|list|length }}</p>
                 <p class="mr-2">Employee ID: {{ user.id }}</p>
             </div>
         </div>

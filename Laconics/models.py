@@ -66,4 +66,4 @@ class Expense(db.Model):
 
      #printed method ToString()
     def __repr__(self):
-        return f"Users('{self.expense_id}','{self.client_name}', '{self.client_project}', '{self.post_date},'{self.user_id}','{self.receipt_image}'')"
+        return f"Users('{self.expense_id}','{self.client_name}', '{self.client_project}', '{self.post_date},'{self.user_id}'')"

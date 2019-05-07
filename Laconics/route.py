@@ -101,7 +101,12 @@ def login():
                         # this line of code give the access for 'remember me' option in log in page
                         # I didn't add it for security reason in case if the device get lost
                         # ( remember = form.remember.data)
-                        
+            
+            
+            # this functionality it direct you always
+            # on guideline page after of the log in.
+            # it an important step for the system to know
+            # which is the direction after of the log in
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('guideline'))
         else:
@@ -113,15 +118,18 @@ def login():
 
 
 
-
+# you'll find the 'login_required' in all the routes of the system, 
+# it doesn't allowed to access any page without log in
 @app.route('/guideline')
-@login_required
+@login_required 
 def guideline():
     return render_template('guideline.html', 
                             title='guideline')
 
-
+# route to view the list of the user,
+# this functionality it's available only for the admin account 
 @app.route('/users', methods=['GET', 'POST'])
+@login_required
 def users():
 
     users = User.query.all()
@@ -131,27 +139,25 @@ def users():
                             users=users)
                             
 
-
+# this route it's show the users profiles,
+# it's receive the full details from the db by id
+# this functionality it's available only for the admin account 
 @app.route('/userprofile/<int:id>')
 def userprofile(id):
     
     user = User.query.get_or_404(id)
-    
-    profile_image = url_for('static', filename = 'profile_pic/' + user.profile_image)
 
+    profile_image = url_for('static', filename = 'profile_pic/' + user.profile_image)
+    
 
     return render_template('users_profile.html', 
                             user=user, 
-                            name=user.name, 
-                            surname=user.surname, 
                             profile_image=profile_image)
                             
 
 
-"""
- This method will work only when the account that you want
- to delete it doesn't have any exist expense
-"""
+# This method will work only when the account that you want
+# to delete it doesn't have any exist expense on this author
 @app.route('/userprofile/<int:id>/delete', methods=['POST'])
 def delete_user(id):
     
@@ -279,6 +285,7 @@ def expenses():
 
 
 @app.route('/reports', methods=['GET', 'POST'])
+@login_required
 def reports():
     expenses = Expense.query.all()
     if current_user.role == 'User':
@@ -444,7 +451,7 @@ def reset_email(user):
     message.body = f''' Please click on link bellow to reset your password:
 {url_for('change_password', token=token, _external=True)}
 
-    This is an email to reset your password if you don't make this request void this email and contact with the administrator
+    This is an email to reset your password if you didn't make this request ignore this email and contact the administrator
     '''
 
     mail.send(message)
@@ -458,10 +465,16 @@ def reset_password():
     
     form = PasswordRequest()
     if form.validate_on_submit():
+        
         user = User.query.filter_by(email=form.mail.data).first()
-        reset_email(user)
-        flash('Email for reset password has been sended', 'info')
-        return redirect(url_for('login'))
+        
+        try:
+            reset_email(user)
+            flash('Email for reset password has been sended', 'info')
+        except:
+            flash('This email does not exist to register user!!', 'info')
+            return redirect(url_for('login'))
+    
     return render_template('reset_request.html', 
                             title='Reset Password', 
                             form=form)
@@ -491,20 +504,20 @@ def change_password(token):
 
 
 
-def payrollmail(expense_id):
+def expensemail(expense_id):
     user = User.query.get(2)
     expense = Expense.query.get_or_404(expense_id)
-    message = Message('Request to reset your password',
+    message = Message('Expense Request',
                        sender = 'ben.durmishllari@gmail.com',
                        recipients = [user.email])
     message.body = ('Expense ID: ' + str(expense.expense_id) + '\n' + '\n'
                  + 'Expense Status: ' + expense.verify_or_decline + '\n' + '\n'
                  + 'Expense Author Employee Number: '  + expense.author.employee_number + '\n' + '\n'
-                 + 'Expense Author FullName: ' + expense.author.name + '  ' +  expense.author.surname + '\n' + '\n'
+                 + 'Expense Author Full Name: ' + expense.author.name + '\t' +  expense.author.surname + '\n' + '\n'
                  + 'Expense Author Email: ' + expense.author.email + '\n' + '\n'
                  + '\n'
                  + '\n'
-                 + '----------------------------------------- Expense Info ----------------------------------------------' + '\n'
+                 + '------------------------------- Expense Info -------------------------------' + '\n'
                  + '\n' 
                  + '\n'
                  + 'Client Name: ' + expense.client_name + '\n' + '\n'
@@ -515,28 +528,29 @@ def payrollmail(expense_id):
                  + 'Receipt: ' + expense.receipt + '\n' + '\n'
                  + 'Client Project: ' + expense.client_project  +'\n' + '\n'
                  + 'Billable to client: ' + expense.billable_to +'\n' + '\n'
-                 + 'Amount GBP: ' + str(expense.GBP) + '\n' + '\n'
-                 + 'Amount EUR: ' + str(expense.EUR) + '\n' + '\n'
-                 + 'Amount USD: ' + str(expense.USD) + '\n' + '\n'
+                 + 'Amount GBP: ' + str(expense.GBP) + ' £ ' + '\n' + '\n'
+                 + 'Amount EUR: ' + str(expense.EUR) + ' € '+ '\n' + '\n'
+                 + 'Amount USD: ' + str(expense.USD) + ' $ '+ '\n' + '\n'
                  + 'Expense Description: ' + expense.description)
 
     mail.send(message)
 
 
 
-@app.route('/send_payroll/<int:expense_id>/sendexpense', methods=['GET', 'POST'])
-def send_payroll(expense_id):
+@app.route('/send_expense/<int:expense_id>/sendexpense', methods=['GET', 'POST'])
+@login_required
+def send_expense(expense_id):
     
     expense = Expense.query.get_or_404(expense_id)
 
     form = SendPayroll()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.mail.data).first()
-        payrollmail(expense_id)
+        expensemail(expense_id)
         flash('Your expense has been sent', 'info')
         return redirect(url_for('expenses'))
     
-    return render_template('send_payroll.html', 
+    return render_template('send_expense.html', 
                             title='Send Expense', 
                             form=form)
 
