@@ -143,6 +143,7 @@ def users():
 # it's receive the full details from the db by id
 # this functionality it's available only for the admin account 
 @app.route('/userprofile/<int:id>')
+@login_required 
 def userprofile(id):
     
     user = User.query.get_or_404(id)
@@ -159,6 +160,7 @@ def userprofile(id):
 # This method will work only when the account that you want
 # to delete it doesn't have any exist expense on this author
 @app.route('/userprofile/<int:id>/delete', methods=['POST'])
+@login_required
 def delete_user(id):
     
     # try-except to dont allowed to delete a user 
@@ -175,13 +177,16 @@ def delete_user(id):
         return redirect(url_for('users'))
     
     except:
-        flash('You can"t delete this account expenses still exist for this author', 'danger')
+        flash('You can\'t delete this account expenses still exist for this author', 'danger')
         return redirect(url_for('users'))
 
 
-
+# route for register, when you'll first run the app
+# the database will be empty so I comment the login_require 
+# to access the register and to create the first admin account.
+# After of this step set again this functionality to secure the app.
 @app.route('/register', methods=['GET', 'POST'])
-# @login_required
+# @login_required 
 def register():
     
     
@@ -402,6 +407,7 @@ def new_expense():
 # this route it's taking the expense id 
 # and it's display the expense with full details.
 @app.route('/expensesprofile/<int:expense_id>')
+@login_required 
 def expensesprofile(expense_id):
     
     try:
@@ -435,6 +441,7 @@ def expensesprofile(expense_id):
 # only from the manager account as is the only role that 
 # the jinja on html display this buttons.
 @app.route('/expensesprofile/<int:expense_id>/verify', methods=['GET', 'POST'])
+@login_required
 def verify(expense_id):
     expense = Expense.query.get_or_404(expense_id)
     expense.verify_or_decline = 'Verify'
@@ -453,6 +460,7 @@ def verify(expense_id):
 # only from the manager account as is the only role that 
 # the jinja on html display this buttons.
 @app.route('/expensesprofile/<int:expense_id>/decline', methods=['GET', 'POST'])
+@login_required
 def decline(expense_id):
     expense = Expense.query.get_or_404(expense_id)
     expense.verify_or_decline = 'Decline'
@@ -468,6 +476,7 @@ def decline(expense_id):
 # route for the edit expense, this functionality is availabe
 # only for the admin account and when an expense is on pending status
 @app.route('/expensesprofile/<int:expense_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_expense(expense_id):
     
     expense = Expense.query.get_or_404(expense_id)
@@ -506,6 +515,7 @@ def edit_expense(expense_id):
 # only for the admin account and it's deleting the whole expense
 # from the db by taking the expense id
 @app.route('/expensesprofile/<int:expense_id>/delete', methods=['POST'])
+@login_required
 def delete_expense(expense_id):
     
     expense = Expense.query.get_or_404(expense_id)

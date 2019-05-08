@@ -1,5 +1,26 @@
+##########################################################################
+# Project: Saggezza Expense App                                          #
+# Full Stack Development: Arben Durmishllari                             #
+# Second Year Student (Computer Science)                                 #
+# Year: 2018-2019                                                        #
+# Email: ben.durmishllari@gmail.com                                      #
+# Github: BenDurmishllari                                                #
+# LinkedIn: Ben Durmishllari                                             #
+##########################################################################
+
+# import of the wtf form, this forms
+# are specif from the framework and it's give
+# the flexibility to create classes for each form
+# that you want to use on the system. 
+# As I mention in many methods on the route.py these
+# forms are connected by passing into a variable and from the html with the ({{ form.hidden_tag() }})
+# so always the routes via variables knows about the form from the tag and the amount of data from the forms.py
 from flask_wtf import FlaskForm
+
+# imports type of files
 from flask_wtf.file import FileField, FileAllowed
+
+# import the form field types
 from wtforms import (StringField, 
                      PasswordField, 
                      SubmitField, 
@@ -8,13 +29,21 @@ from wtforms import (StringField,
                      IntegerField, 
                      validators, 
                      FloatField)
+
+# import validations
 from wtforms.validators import (DataRequired, 
                                 Length, 
                                 Email, 
                                 EqualTo, 
                                 ValidationError)
 from wtforms.fields.html5 import DateField
-from Laconics.models import User
+from Laconics.models import User, Expense
+
+# import current_user, with this specific
+# library we give the flexibility on the system
+# to auto-recognize tha user that it's logged in
+# and to give many oppurtunity to app on the way 
+# that it's working
 from flask_login import current_user
 
 

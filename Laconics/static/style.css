@@ -262,50 +262,59 @@ body {
   border-radius: 7px;
   margin-bottom: 20px;
 }
-.article-title {
+.article-title 
+{
   color: #444444;
 }
 
-a.article-title:hover {
+a.article-title:hover 
+{
   color: #428bca;
   text-decoration: none;
 }
 
-.article-content {
+.article-content 
+{
   white-space: pre-line;
 }
 
-.article-img {
+.article-img 
+{
   height: 65px;
   width: 65px;
   margin-right: 16px;
 }
 
-.article-metadata {
+.article-metadata 
+{
   padding-bottom: 1px;
   margin-bottom: 4px;
   border-bottom: 1px solid #e3e3e3
 }
 
-.article-metadata a:hover {
+.article-metadata a:hover 
+{
   color: #333;
   text-decoration: none;
 }
 
-.article-svg {
+.article-svg 
+{
   width: 25px;
   height: 25px;
   vertical-align: middle;
 }
 
-.account-img {
+.account-img 
+{
   height: 125px;
   width: 125px;
   margin-right: 20px;
   margin-bottom: 16px;
 }
 
-.account-heading {
+.account-heading 
+{
   font-size: 2.5rem;
 }
 
@@ -317,14 +326,16 @@ a.article-title:hover {
 }
 
 /* expense receipt image */
-.outer {
+.outer 
+{
   height: 300px;
   width: 800px;
   overflow: scroll;
   position: relative;
 }
 
-.inner.large {
+.inner.large 
+{
   width: 500px;
   height: 300px;
 }
@@ -348,13 +359,16 @@ a.article-title:hover {
 }
 
 /*default 767 */
-@media (max-width: 768px) {
-  .nav-side-menu {
+@media (max-width: 768px) 
+{
+  .nav-side-menu 
+  {
     position: relative;
     width: 100%;
     margin-bottom: 10px;
   }
-  .nav-side-menu .toggle-btn {
+  .nav-side-menu .toggle-btn 
+  {
     display: block;
     cursor: pointer;
     position: absolute;
@@ -367,19 +381,23 @@ a.article-title:hover {
     width: 40px;
     text-align: center;
   }
-  .content-section{
+  .content-section
+  {
     width: 90%;
   }
   
 }
 
-@media (max-width: 815px) {
-  .nav-side-menu {
+@media (max-width: 815px) 
+{
+  .nav-side-menu 
+  {
     position: relative;
     width: 100%;
     margin-bottom: 10px;
   }
-  .nav-side-menu .toggle-btn {
+  .nav-side-menu .toggle-btn 
+  {
     display: block;
     cursor: pointer;
     position: absolute;
@@ -392,7 +410,8 @@ a.article-title:hover {
     width: 40px;
     text-align: center;
   }
-  .content-section{
+  .content-section
+  {
     width: 90%;
   }
   
@@ -401,8 +420,10 @@ a.article-title:hover {
 
 
 /* default 992 */
-@media (min-width: 992px) {
-  .nav-side-menu .menu-list .menu-content {
+@media (min-width: 992px) 
+{
+  .nav-side-menu .menu-list .menu-content 
+  {
     display: block;
   }
 }
@@ -415,12 +436,15 @@ a.article-title:hover {
 @media (m-width: 768px) {  }
 
 /* // Large devices (desktops, 992px and up) */
-@media (max-width: 992px) {  
+@media (max-width: 992px) 
+{  
 
-  .content-section{
+  .content-section
+  {
     width: 90%;
   }
-  .outer{
+  .outer
+  {
     height: 600px;
     width: 355px;
   }

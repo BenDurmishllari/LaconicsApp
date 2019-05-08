@@ -1,6 +1,21 @@
+##########################################################################
+# Project: Saggezza Expense App                                          #
+# Full Stack Development: Arben Durmishllari                             #
+# Second Year Student (Computer Science)                                 #
+# Year: 2018-2019                                                        #
+# Email: ben.durmishllari@gmail.com                                      #
+# Github: BenDurmishllari                                                #
+# LinkedIn: Ben Durmishllari                                             #
+##########################################################################
+
+# imports from the module
 from Laconics import db, app, route, login_manager
+
+# import to serialise the secret token & key
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
+
+# import for the relationship between the tables on db
 from flask_login import UserMixin
 
 
@@ -24,7 +39,8 @@ class User(db.Model, UserMixin):
     role = db.Column(db.String(20), nullable = False)
     expenses = db.relationship('Expense', backref = 'author', lazy = True)
 
-
+    # methods that manage the expire of secret token
+    # genarate and serialize this key that it't unique for any user
     def get_reset_token(self, expires_sec = 600):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -42,7 +58,7 @@ class User(db.Model, UserMixin):
 
     #printed method ToString()
     def __repr__(self):
-        return f"Users('{self.id}','{self.name}', '{self.surname}','{self.profile_image},'{self.expenses}'')"
+        return f"Users('{self.id}','{self.name}', '{self.surname}','{self.email},'{self.role}'')"
 
 
 class Expense(db.Model):
@@ -66,4 +82,4 @@ class Expense(db.Model):
 
      #printed method ToString()
     def __repr__(self):
-        return f"Users('{self.expense_id}','{self.client_name}', '{self.client_project}', '{self.post_date},'{self.user_id}'')"
+        return f"Users('{self.expense_id}','{self.client_name}', '{self.client_project}', '{self.expenses_date},'{self.user_id}'')"
